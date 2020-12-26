@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Darwin IDE</title>
+  </head>
+  <body>
+
+    <!-- 顶部标题栏 -->
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#!" class="right" style="margin-right: 0;">
+          <img src="./resources/convertor_log.png" style="width: 105px;height: 100%;margin-left: 0;"></img>
+        </a>
+        <a href="#!" class="brand-logo center">模型转换器</a>
+        <ul class="left" style="width: 100px;height: 100%;">
+          <li>
+            <a id="backHome" href="#">
+              <i class="material-icons">arrow_back</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="row card" style="margin-left: 10%;margin-right: 20%">
+      <span class="card-title" style="display: block;margin: 0 auto;text-align: center;">转换流程</span>
+
+      <div class="card-action">
+
+        <div style="position: absolute; margin-top: -30px;margin-left: 2%;">
+          <div class="fixed-action-btn click-to-toggle direction-bottom" style="position: absolute;display: inline-block;left: 10px;top: 30px;">
+            <a class="btn-floating btn-middle teal pulse">
+              <i class="large material-icons">open_in_browser</i>
+            </a>
+            <ul>
+              <li><a class="btn-floating teal btn-middle"><i class="material-icons">attach_file</i></a></li>
+              <li><a class="btn-floating blue darken-1"><i class="material-icons">developer_board</i></a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="height: 100px;width: 120px;position: relative;" class="col s1 m1">
+          <p style="position: absolute;bottom: 40px;">导入数据与模型</p>
+        </div>
+
+        <div style="height: 100px;width: 120px;" class="col s1 m1">
+          <a class="btn-floating pulse" style="display: block;margin-left: 15%;">
+            <i class="material-icons">poll</i>
+          </a>
+          <p>数据预处理</p>
+        </div>
+  
+        <div style="height: 100px;width: 120px;" class="col s1 m1">
+          <a class="btn-floating pulse" style="display: block;margin-left: 15%;">
+            <i class="material-icons">build</i>
+          </a>
+          <p>参数调整校验</p>
+        </div>
+  
+        <div style="height: 100px;width: 120px;" class="col s1 m1">
+          <a class="btn-floating pulse" style="display: block;margin-left: 15%;">
+            <i class="material-icons">autorenew</i>
+          </a>
+          <p>模型转换与仿真</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- 显示加载数据的树形组件 -->
+      <div class="col m2">
+        <span class="card-title green-text text-darken-4"><font style="font-size: 20px;">数据预览</font></span>
+          <div id="file_tree" class="waves-effect waves-teal z-depth-3 overflow:scroll"></div>
+      </div>
+
+      <!-- 数据可视化区域 -->
+      <div class="col m6">
+        <img src="./resources/img_1.jpg" style="width: 100px;height: 100px; padding: 1px;">
+        <img src="./resources/img_3.jpg" style="width: 100px;height: 100px; padding: 1px;">
+        <img src="./resources/img_5.jpg" style="width: 100px;height: 100px; padding: 1px;">
+        <img src="./resources/img_7.jpg" style="width: 100px;height: 100px; padding: 1px;">
+        <div id="histgram" style="width: 400px; height: 300px;margin-top: 30px;"></div>
+        <div id="dist_pie" style="width: 400px;height: 300px; margin-top: 30px;"></div>
+      </div>
+    </div>
+  </body>
+  <style>
+    @font-face {
+      font-family: 'Material Icons';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v7/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+    }
+  
+    .material-icons {
+      font-family: 'Material Icons';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      text-transform: none;
+      display: inline-block;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+  <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.min.css">
+  <link rel="stylesheet" href="./node_modules/layui-src/dist/css/layui.css">
+  <!-- You can also require other files to run in this process -->
+  <script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>
+  <script src="./node_modules/layui-src/dist/layui.js"></script>
+  <script src="./node_modules/echarts/dist/echarts.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.fixed-action-btn');
+      var instances = M.FloatingActionButton.init(elems, {"hoverEnabled":false});
+    });
+
+    layui.use('tree', function(){
+    var tree = layui.tree;
+    var treeData = new Array();
+    for(var i=0;i<10;++i){
+      var childData = new Object();
+      childData.title = "数字"+i;
+      childData.children = new Array();
+      for(var j=0;j<5;++j){
+        childData.children.push({title:"img_"+i+""+j+".jpg"});
+      }
+      treeData.push(childData);
+    }
+    console.log(treeData);
+   
+    //渲染
+    var treeInst = tree.render({
+      elem:"#file_tree",
+      data:treeData,
+      click: function(obj){
+        console.log("点击数据:"+obj.data.title);
+      }
+    });
+  });
+
+    // 图片直方图绘制
+    var echartHistgram = echarts.init(document.getElementById("histgram"));
+    // 指定图表的配置项和数据
+    var option = {
+      title: {
+          text: '像素灰度直方图'
+      },
+      tooltip: {},
+      legend: {
+          data:['累计个数']
+      },
+      xAxis: {
+          data: ["0~41","42~83","84~125","126~167","168~209","201~255"],
+          axisLabel:{
+            rotate: 30,
+            interval: 0
+          }
+      },
+      yAxis: {},
+      series: [{
+          name: '像素累计',
+          type: 'bar',
+          data: [5, 20, 36, 10, 10, 20]
+      }]
+    };
+    echartHistgram.setOption(option);
+    // 数据类别分布饼图
+    var echartDistPie = echarts.init(document.getElementById("dist_pie"));
+    var option=option = {
+          backgroundColor: '#2c343c',
+
+          title: {
+              text: '数据分布',
+              left: 'center',
+              top: 20,
+              textStyle: {
+                  color: '#ccc'
+              }
+          },
+
+          tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+
+          visualMap: {
+              show: false,
+              min: 80,
+              max: 600,
+              inRange: {
+                  colorLightness: [0, 1]
+              }
+          },
+          series: [
+              {
+                  name: '数据占比',
+                  type: 'pie',
+                  radius: '55%',
+                  center: ['50%', '50%'],
+                  data: [
+                      {value: 335, name: '类别1'},
+                      {value: 310, name: '类别2'},
+                      {value: 274, name: '类别3'},
+                      {value: 235, name: '类别4'},
+                      {value: 400, name: '类别5'}
+                  ].sort(function (a, b) { return a.value - b.value; }),
+                  roseType: 'radius',
+                  label: {
+                      color: 'rgba(255, 255, 255, 0.3)'
+                  },
+                  labelLine: {
+                      lineStyle: {
+                          color: 'rgba(255, 255, 255, 0.3)'
+                      },
+                      smooth: 0.2,
+                      length: 10,
+                      length2: 20
+                  },
+                  itemStyle: {
+                      color: '#c23531',
+                      shadowBlur: 200,
+                      shadowColor: 'rgba(0, 0, 0, 0.5)'
+                  },
+
+                  animationType: 'scale',
+                  animationEasing: 'elasticOut',
+                  animationDelay: function (idx) {
+                      return Math.random() * 200;
+                  }
+              }
+          ]
+    };
+    echartDistPie.setOption(option);
+
+    require("./renderer_convertor.js");
+  </script>
+</html>
