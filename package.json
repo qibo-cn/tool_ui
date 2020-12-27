@@ -27,6 +27,7 @@
   "dependencies": {
     "bootstrap-css": "^4.0.0-alpha.5",
     "echarts": "^5.0.0",
+    "keras-js": "^1.0.3",
     "layui-src": "^2.5.7",
     "materialize-css": "^1.0.0-rc.2",
     "react": "^17.0.1",

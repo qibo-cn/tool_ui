@@ -7,6 +7,7 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    icon:path.join(__dirname, "resources/favicon.ico"),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration:true
@@ -23,11 +24,13 @@ function createWindow () {
   ipcMain.on("jump_to_convertor_page",(evt,args)=>{
     console.log("Jump from main page to convertor page.");
     mainWindow.loadFile("convertor.html");
+    mainWindow.setSize(1030,710);
   });
 
   ipcMain.on("back_to_main_page",(evt,args)=>{
     console.log("Back to main page");
     mainWindow.loadFile("index.html");
+    mainWindow.setSize(800,600);
   });
 }
 

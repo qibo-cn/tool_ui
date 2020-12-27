@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row z-depth-2">
       <!-- 显示加载数据的树形组件 -->
       <div class="col m2">
         <span class="card-title green-text text-darken-4"><font style="font-size: 20px;">数据预览</font></span>
@@ -75,7 +75,7 @@
       </div>
 
       <!-- 数据可视化区域 -->
-      <div class="col m6">
+      <div class="col m6 z-depth-1">
         <img src="./resources/img_1.jpg" style="width: 100px;height: 100px; padding: 1px;">
         <img src="./resources/img_3.jpg" style="width: 100px;height: 100px; padding: 1px;">
         <img src="./resources/img_5.jpg" style="width: 100px;height: 100px; padding: 1px;">
@@ -83,6 +83,11 @@
         <div id="histgram" style="width: 400px; height: 300px;margin-top: 30px;"></div>
         <div id="dist_pie" style="width: 400px;height: 300px; margin-top: 30px;"></div>
         <div id="data_heatmap" style="width: 400px; height: 300px; margin-top: 30px;"></div>
+      </div>
+
+      <!--模型可视化区域-->
+      <div class="col m4 z-depth-1">
+        <div id="sankey" style="width: 400px; height: 300px;margin-top: 30px;"></div>
       </div>
     </div>
   </body>
@@ -170,15 +175,13 @@
     echartHistgram.setOption(option);
     // 数据类别分布饼图
     var echartDistPie = echarts.init(document.getElementById("dist_pie"));
-    var option=option = {
-          backgroundColor: '#2c343c',
-
+    option = {
           title: {
               text: '数据分布',
               left: 'center',
               top: 20,
               textStyle: {
-                  color: '#ccc'
+                  color: '#34495E'
               }
           },
 
@@ -210,11 +213,11 @@
                   ].sort(function (a, b) { return a.value - b.value; }),
                   roseType: 'radius',
                   label: {
-                      color: 'rgba(255, 255, 255, 0.3)'
+                      color: '#34495E'
                   },
                   labelLine: {
                       lineStyle: {
-                          color: 'rgba(255, 255, 255, 0.3)'
+                          color: '#34495E'
                       },
                       smooth: 0.2,
                       length: 10,
@@ -259,6 +262,14 @@
   });
 
   option = {
+    title: {
+              text: '热力图',
+              left: 'center',
+              top: 0,
+              textStyle: {
+                  color: '#ccc'
+              }
+      },
       tooltip: {
           position: 'top'
       },
@@ -305,6 +316,51 @@
       }]
   };
     echartHeatMap.setOption(option);
+
+    // 模型桑基图
+    var echartSankey = echarts.init(document.getElementById("sankey"));
+    var nodeList = [
+      {"name":"Input Layer"},
+      {"name":"Dense Layer 1024"},
+      {"name":"Dense Layer 512"},
+      {"name":"Dense Layer 256"},
+      {"name":"Dense Layer 32"},
+      {"name":"Dense Layer 10"}
+    ];
+
+    var linkList = [
+      {"source":"Input Layer","target":"Dense Layer 1024", value:4560},
+      {"source":"Dense Layer 1024","target":"Dense Layer 512", value:2345},
+      {"source":"Dense Layer 512","target":"Dense Layer 256", value:1245},
+      {"source":"Dense Layer 256","target":"Dense Layer 32", value:978},
+      {"source":"Dense Layer 32","target":"Dense Layer 10", value:900},
+    ];
+    option = {
+        title: {
+            text: 'Sankey Diagram'
+        },
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+        },
+        series: [
+            {
+                type: 'sankey',
+                data: nodeList,
+                links: linkList,
+                focusNodeAdjacency: 'allEdges',
+                itemStyle: {
+                    borderWidth: 1,
+                    borderColor: '#aaa'
+                },
+                lineStyle: {
+                    color: 'source',
+                    curveness: 0.5
+                }
+            }
+        ]
+    };
+    echartSankey.setOption(option);
 
     require("./renderer_convertor.js");
   </script>
