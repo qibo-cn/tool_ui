@@ -76,10 +76,17 @@
 
       <!-- 数据可视化区域 -->
       <div class="col m6 z-depth-1">
-        <img src="./resources/img_1.jpg" style="width: 100px;height: 100px; padding: 1px;">
+        <!-- <img src="./resources/img_1.jpg" style="width: 100px;height: 100px; padding: 1px;">
         <img src="./resources/img_3.jpg" style="width: 100px;height: 100px; padding: 1px;">
         <img src="./resources/img_5.jpg" style="width: 100px;height: 100px; padding: 1px;">
-        <img src="./resources/img_7.jpg" style="width: 100px;height: 100px; padding: 1px;">
+        <img src="./resources/img_7.jpg" style="width: 100px;height: 100px; padding: 1px;"> -->
+        <div id="img_carousel" class="carousel" style="height: 300px; width: 400px;">
+          <a class="carousel-item" href="#one!"><img src="./resources/img_1.jpg"></a>
+          <a class="carousel-item" href="#two!"><img src="./resources/img_2.jpg"></a>
+          <a class="carousel-item" href="#three!"><img src="./resources/img_3.jpg"></a>
+          <a class="carousel-item" href="#four!"><img src="./resources/img_5.jpg"></a>
+          <a class="carousel-item" href="#five!"><img src="./resources/img_7.jpg"></a>
+        </div>
         <div id="histgram" style="width: 400px; height: 300px;margin-top: 30px;"></div>
         <div id="dist_pie" style="width: 400px;height: 300px; margin-top: 30px;"></div>
         <div id="data_heatmap" style="width: 400px; height: 300px; margin-top: 30px;"></div>
@@ -121,6 +128,9 @@
     document.addEventListener('DOMContentLoaded', function() {
       var elems = document.querySelectorAll('.fixed-action-btn');
       var instances = M.FloatingActionButton.init(elems, {"hoverEnabled":false});
+
+      var carouselDiv = document.getElementById("img_carousel");
+      var carouselInst = M.Carousel.init(carouselDiv,{});
     });
 
     layui.use('tree', function(){
