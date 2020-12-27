@@ -97,6 +97,99 @@
         <div id="sankey" style="width: 400px; height: 300px;margin-top: 30px;"></div>
       </div>
     </div>
+
+    <!-- 日志输出区 -->
+    <div class="row z-depth-0">
+      <div class="card col offset-m1 z-depth-0" style="width: 80%;">
+        <span class="card-title">日志输出</span>
+      </div>
+    </div>
+    <div class="row">
+      <!--日志功能区-->
+      <div class="col m1 z-depth-1 offset-m1" style="width: 3%;">
+          <i class="small material-icons z-depth-2 waves-effect waves-red">file_download</i>
+          <i class="small material-icons z-depth-2 waves-effect waves-red" style="margin-top: 30px;">delete</i>
+      </div>
+      <!-- 输出区 -->
+      <div class="col m10 z-depth-1" style="width: 80%;height: 400px;overflow: auto;">
+        <pre>
+          /home/ahundt/.local/lib/python2.7/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+2018-02-24 17:57:24.388515: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1105] Found device 0 with properties: 
+name: GeForce GTX TITAN X major: 5 minor: 2 memoryClockRate(GHz): 1.076
+pciBusID: 0000:02:00.0
+totalMemory: 11.92GiB freeMemory: 9.14GiB
+
+logs: {'loss': 0.4783020753239531, 'val_binary_accuracy': 0.8544542032622334, 'val_mean_pred': 0.5765384233508778, 'mean_true': 0.6366707616707616, 'binary_accuracy': 0.7731879606879607, 'test_binary_accuracy': 0.793584379358438, 'test_mean_true': 0.603905160390516, 'test_loss': 0.40996293260487293, 'test_mean_pred': 0.5342399459001004, 'val_loss': 0.36071502117421406, 'mean_pred': 0.6342599527402357, 'val_mean_true': 0.6700125470514429}
+
+Epoch 00001: val_binary_accuracy improved from -inf to 0.85445, saving model to ./logs_cornell/2018-02-24-17-57-25_deletme_finetuningtest-vgg_dense_model-dataset_cornell_grasping-grasp_success/2018-02-24-17-57-25_deletme_finetuningtest-vgg_dense_model-dataset_cornell_grasping-grasp_success-epoch-001-val_loss-0.361-val_binary_accuracy-0.854.h5
+Training:  50%|████████████████████████████████████████████████████████████████████████████████████▌                                                                                    | 1/2 [01:10<01:10, 70.90s/it]
+Epoch: 0 - loss: 0.478, binary_accuracy: 0.773, mean_pred: 0.634, mean_true: 0.637, val_loss: 0.361, val_binary_accuracy: 0.854, val_mean_pred: 0.577, val_mean_true: 0.670: 100%|██| 407/407 [01:10<00:00,  6.43s/it]
+epoch:0 self.epoch: 1 lr: 0.01 self.learning_rate: 0.0001 float(K.get_value(self.model.optimizer.lr)): 0.00999999977648 what is going on?0
+
+
+
+
+epoch:0 self.epoch: 1 lr: 0.01 self.learning_rate: 0.0001 float(K.get_value(self.model.optimizer.lr)): 9.99999974738e-05 what is going on?1
+
+
+
+logs: {'loss': 0.3740986755314564, 'val_binary_accuracy': 0.8569636135508155, 'val_mean_pred': 0.6045755832911781, 'mean_true': 0.6362100737100738, 'binary_accuracy': 0.8356879606879607, 'test_binary_accuracy': 0.8131101813110181, 'lr': 0.01, 'test_mean_true': 0.606694560669456, 'test_loss': 0.3948480336364447, 'test_mean_pred': 0.5687255830441652, 'val_loss': 0.3517344869665072, 'mean_pred': 0.6220840345290135, 'val_mean_true': 0.6813048933500627}
+
+Epoch 00002: val_binary_accuracy improved from 0.85445 to 0.85696, saving model to ./logs_cornell/2018-02-24-17-57-25_deletme_finetuningtest-vgg_dense_model-dataset_cornell_grasping-grasp_success/2018-02-24-17-57-25_deletme_finetuningtest-vgg_dense_model-dataset_cornell_grasping-grasp_success-epoch-002-val_loss-0.352-val_binary_accuracy-0.857.h5
+Training: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [02:12<00:00, 68.00s/it]
+Epoch: 1 - loss: 0.374, binary_accuracy: 0.836, mean_pred: 0.622, mean_true: 0.636, val_loss: 0.352, val_binary_accuracy: 0.857, val_mean_pred: 0.605, val_mean_true: 0.681: 100%|██| 407/407 [01:01<00:00,  6.05s/it]
+--------------------------------------------------------
+Epoch 00002 Fine tuning initialized with a new learning rate of 0.0001.
+
+
+epoch:1 self.epoch: 1 lr: 1e-04 self.learning_rate: 0.0001 float(K.get_value(self.model.optimizer.lr)): 9.99999974738e-05 what is going on?0
+
+
+
+
+epoch:1 self.epoch: 1 lr: 1e-04 self.learning_rate: 0.0001 float(K.get_value(self.model.optimizer.lr)): 9.99999974738e-05 what is going on?1
+
+
+
+val_loss
+Writing logs for models, accuracy and tensorboard in ./logs_cornell/2018-02-24-17-59-40_deletme_finetuningtest-vgg_dense_model-dataset_cornell_grasping-grasp_success
+Training:   0%|                                                                                                                                                                                 | 0/2 [00:00<?, ?it/s]2018-02-24 17:59:41.896400: I 
+
+logs: {'loss': 0.4810578681034304, 'val_binary_accuracy': 0.8444165621079046, 'val_mean_pred': 0.6077896220565141, 'mean_true': 0.6355958230958231, 'binary_accuracy': 0.7681203931203932, 'test_binary_accuracy': 0.8158995815899581, 'test_mean_true': 0.6150627615062761, 'test_loss': 0.4176696949541657, 'test_mean_pred': 0.5816565619540015, 'val_loss': 0.3597393203379208, 'mean_pred': 0.6361474243223814, 'val_mean_true': 0.671267252195734}
+
+Epoch 00001: val_binary_accuracy improved from -inf to 0.84442, saving model to ./logs_cornell/2018-02-24-17-59-40_deletme_finetuningtest-vgg_dense_model-dataset_cornell_grasping-grasp_success/2018-02-24-17-59-40_deletme_finetuningtest-vgg_dense_model-dataset_cornell_grasping-grasp_success-epoch-001-val_loss-0.360-val_binary_accuracy-0.844.h5
+Training:  50%|████████████████████████████████████████████████████████████████████████████████████▌                                                                                    | 1/2 [01:06<01:06, 66.19s/it]
+Epoch: 0 - loss: 0.481, binary_accuracy: 0.768, mean_pred: 0.636, mean_true: 0.636, val_loss: 0.360, val_binary_accuracy: 0.844, val_mean_pred: 0.608, val_mean_true: 0.671: 100%|██| 407/407 [01:06<00:00,  6.26s/it]
+epoch:0 self.epoch: 1 lr: 0.01 self.learning_rate: 0.0001 float(K.get_value(self.model.optimizer.lr)): 0.00999999977648 what is going on?0
+
+
+
+
+epoch:0 self.epoch: 1 lr: 0.01 self.learning_rate: 0.0001 float(K.get_value(self.model.optimizer.lr)): 9.99999974738e-05 what is going on?1
+
+
+
+logs: {'loss': 0.3773377069091328, 'val_binary_accuracy': 0.8619824341279799, 'val_mean_pred': 0.6283095117490107, 'mean_true': 0.6380528255528255, 'binary_accuracy': 0.8312346437346437, 'test_binary_accuracy': 0.8200836820083682, 'lr': 0.01, 'test_mean_true': 0.596931659693166, 'test_loss': 0.4088241641346048, 'test_mean_pred': 0.5962408034058192, 'val_loss': 0.3422797008504018, 'mean_pred': 0.6235201416642425, 'val_mean_true': 0.6775407779171895}
+
+Epoch 00002: val_binary_accuracy improved from 0.84442 to 0.86198, saving model to ./logs_cornell/2018-02-24-17-59-40_deletme_finetuningtest-vgg_dense_model-dataset_cornell_grasping-grasp_success/2018-02-24-17-59-40_deletme_finetuningtest-vgg_dense_model-dataset_cornell_grasping-grasp_success-epoch-002-val_loss-0.342-val_binary_accuracy-0.862.h5
+Training: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [02:07<00:00, 64.76s/it]
+Epoch: 1 - loss: 0.377, binary_accuracy: 0.831, mean_pred: 0.624, mean_true: 0.638, val_loss: 0.342, val_binary_accuracy: 0.862, val_mean_pred: 0.628, val_mean_true: 0.678: 100%|██| 407/407 [01:01<00:00,  6.12s/it]
+--------------------------------------------------------
+Epoch 00002 Fine tuning initialized with a new learning rate of 0.0001.
+
+
+epoch:1 self.epoch: 1 lr: 1e-04 self.learning_rate: 0.0001 float(K.get_value(self.model.optimizer.lr)): 9.99999974738e-05 what is going on?0
+
+
+
+
+epoch:1 self.epoch: 1 lr: 1e-04 self.learning_rate: 0.0001 float(K.get_value(self.model.optimizer.lr)): 9.99999974738e-05 what is going on?1
+
+        </pre>
+      </div>
+    </div>
   </body>
   <style>
     @font-face {
@@ -347,7 +440,7 @@
     ];
     option = {
         title: {
-            text: 'Sankey Diagram'
+            text: ''
         },
         tooltip: {
             trigger: 'item',
