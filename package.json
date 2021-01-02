@@ -25,10 +25,13 @@
     "popper.js": "^1.16.1"
   },
   "dependencies": {
+    "backbone": "^1.4.0",
     "bootstrap-css": "^4.0.0-alpha.5",
     "echarts": "^5.0.0",
+    "jointjs": "^3.2.0",
     "keras-js": "^1.0.3",
     "layui-src": "^2.5.7",
+    "loadash": "^1.0.0",
     "materialize-css": "^1.0.0-rc.2",
     "react": "^17.0.1",
     "react-d3-tree": "^2.0.0",

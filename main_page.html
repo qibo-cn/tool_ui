@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Darwin IDE</title>
+</head>
+<body>
+
+    <div id="myholder"></div>
+
+</body>
+<style>
+
+@media (prefers-color-scheme: dark) {
+  body { background:  #333; color: white; }
+}
+
+@media (prefers-color-scheme: light) {
+  body { background:  #ddd; color: black; }
+}
+
+  @font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v7/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    text-transform: none;
+    display: inline-block;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+</style>
+<link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.min.css">
+<link rel="stylesheet" href="./node_modules/jointjs/dist/joint.css">
+<!-- You can also require other files to run in this process -->
+<script>
+    window.$ = window.jQuery = require("./node_modules/jquery/dist/jquery.js");
+</script>
+<!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
+<script src="./node_modules/lodash/lodash.js"></script>
+<script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>
+<script src="./node_modules/backbone/backbone.js"></script>
+<!-- joint js for flow chart -->
+<script src="./node_modules/jointjs/dist/joint.js"></script>
+<script>
+
+var graph = new joint.dia.Graph;
+   
+   var paper = new joint.dia.Paper({
+       el: document.getElementById('myholder'),
+       model: graph,
+       width: 750,
+       height: 500,
+       gridSize: 1,
+       background:{
+           color:"#333"
+       }
+   });
+   
+   var rect = new joint.shapes.standard.Rectangle();
+   rect.position(20, 20);
+   rect.resize(80, 30);
+   rect.attr({
+       body: {
+           fill: 'blue'
+       },
+       label: {
+           text: 'ANN训练',
+           fill: 'white'
+       }
+   });
+   rect.addTo(graph);
+
+   var ellipse = new joint.shapes.standard.Ellipse();
+   ellipse.resize(80,40);
+   ellipse.position(220,20);
+   ellipse.attr("label/text","转换");
+   ellipse.attr("label/fill","white");
+   ellipse.attr("body/fill","orange");
+   ellipse.addTo(graph);
+
+   var rect2 = rect.clone();
+   rect2.translate(100,0);
+   rect2.attr("label/text","ANN模型");
+   rect2.addTo(graph);
+   var link1 = new joint.shapes.standard.Link();
+   link1.attr("line/stroke","#ddd");
+   link1.source(rect);
+   link1.target(rect2);
+   link1.addTo(graph);
+
+   var link2 = new joint.shapes.standard.Link();
+   link2.attr("line/stroke","#ddd");
+   link2.source(rect2);
+   link2.target(ellipse);
+   link2.addTo(graph);
+
+   var rect3 = rect.clone();
+   rect3.translate(300,0);
+   rect3.attr("label/text","SNN模型文件\n(DarwinLang)");
+   rect3.addTo(graph);
+
+   var link3 = new joint.shapes.standard.Link();
+   link3.attr("line/stroke","#ddd");
+   link3.source(ellipse);
+   link3.target(rect3);
+   link3.addTo(graph);
+
+   var ellipse2 = ellipse.clone();
+   ellipse2.translate(200,0);
+   ellipse2.attr("label/text","模拟调试");
+   ellipse2.addTo(graph);
+
+   var link4 = new joint.shapes.standard.Link();
+   link4.attr("line/stroke","#ddd");
+   link4.source(rect3);
+   link4.target(ellipse2);
+   link4.addTo(graph);
+
+   var ellipse3 = ellipse.clone();
+   ellipse3.translate(300,0);
+   ellipse3.attr("label/text","可视化评估\n分析");
+   ellipse3.addTo(graph);
+
+   var link5 = new joint.shapes.standard.Link();
+   link5.attr("line/stroke","#ddd");
+   link5.source(ellipse2);
+   link5.target(ellipse3);
+   link5.addTo(graph);
+
+   var ellipse4 = ellipse.clone();
+   ellipse4.position(20,80);
+   ellipse4.attr("label/text","SNN训练");
+   ellipse4.addTo(graph);
+
+   var rect4 = rect.clone();
+   rect4.position(120,80);
+   rect4.attr("label/text","SNN模型\n描述文件");
+   rect4.addTo(graph);
+
+   var link6 = new joint.shapes.standard.Link();
+   link6.attr("line/stroke","#ddd");
+   link6.source(ellipse4);
+   link6.target(rect4);
+   link6.addTo(graph);
+
+   var ellipse5 = ellipse.clone();
+   ellipse5.position(320,80);
+   ellipse5.attr("label/text","编译映射");
+   ellipse5.addTo(graph);
+
+   var link7 = new joint.shapes.standard.Link();
+   link7.attr("line/stroke","#ddd");
+   link7.source(rect3);
+   link7.target(ellipse5);
+   link7.addTo(graph);
+
+   var link8 = new joint.shapes.standard.Link();
+   link8.attr("line/stroke","#ddd");
+   link8.source(rect4);
+   link8.target(ellipse);
+   link8.addTo(graph);
+
+   var rect5 = rect.clone();
+   rect5.position(20,160);
+   rect5.attr("label/text","输入数据");
+   rect5.addTo(graph);
+
+   var ellipse8 = ellipse.clone();
+   ellipse8.position(20,220);
+   ellipse8.attr("label/text","数据预处理");
+   ellipse8.addTo(graph);
+
+   var link9 = new joint.shapes.standard.Link();
+   link9.attr("line/stroke","#ddd");
+   link9.source(rect5);
+   link9.target(ellipse8);
+   link9.addTo(graph);
+
+   var ellipse6 = ellipse.clone();
+   ellipse6.position(20,280);
+   ellipse6.attr("label/text","脉冲编码");
+   ellipse6.addTo(graph);
+
+
+   var link10 = new joint.shapes.standard.Link();
+   link10.attr("line/stroke","#ddd");
+   link10.source(ellipse8);
+   link10.target(ellipse6);
+   link10.addTo(graph);
+
+   var rect6 = rect.clone();
+   rect6.position(120,280);
+   rect6.attr("label/text","输入脉冲");
+   rect6.addTo(graph);
+
+   var link11 = new joint.shapes.standard.Link();
+   link11.attr("line/stroke","#ddd");
+   link11.source(ellipse6);
+   link11.target(rect6);
+   link11.addTo(graph);
+
+   var rect7 = rect.clone();
+   rect7.position(220,280);
+   rect7.attr("label/text","类脑计算机");
+   rect7.addTo(graph);
+
+   var link12 = new joint.shapes.standard.Link();
+   link12.attr("line/stroke","#ddd");
+   link12.source(rect6);
+   link12.target(rect7);
+   link12.addTo(graph);
+
+   var rect8 = rect.clone();
+   rect8.position(320,200);
+   rect8.attr("label/text","SNN模型文件\n(二进制文件)");
+   rect8.addTo(graph);
+
+   var rect9 = rect.clone();
+   rect9.position(320,320);
+   rect9.attr("label/text","输出脉冲");
+   rect9.addTo(graph);
+
+   var link13 = new joint.shapes.standard.Link();
+   link13.attr("line/stroke","#ddd");
+   link13.source(rect7);
+   link13.target(rect9);
+   link13.addTo(graph);
+
+   var link14 = new joint.shapes.standard.Link();
+   link14.attr("line/stroke","#ddd");
+   link14.source(rect8);
+   link14.target(rect7);
+   link14.addTo(graph);
+
+   var rect10 = rect.clone();
+   rect10.position(360,260);
+   rect10.attr("label/text","运行时信息");
+   rect10.addTo(graph);
+
+   var link15 = new joint.shapes.standard.Link();
+   link15.attr("line/stroke","#ddd");
+   link15.source(rect7);
+   link15.target(rect10);
+   link15.addTo(graph);
+
+   var ellipse7 = ellipse.clone();
+   ellipse7.position(420,320);
+   ellipse7.attr("label/text","脉冲解码");
+   ellipse7.addTo(graph);
+
+   var link16 = new joint.shapes.standard.Link();
+   link16.attr("line/stroke","#ddd");
+   link16.source(rect9);
+   link16.target(ellipse7);
+   link16.addTo(graph);
+
+   var rect11 = rect.clone();
+   rect11.position(520,320);
+   rect11.attr("label/text","输出数据");
+   rect11.addTo(graph);
+
+   var link17 = new joint.shapes.standard.Link();
+   link17.attr("line/stroke","#ddd");
+   link17.source(ellipse7);
+   link17.target(rect11);
+   link17.addTo(graph);
+
+   var link18 = new joint.shapes.standard.Link();
+   link18.attr("line/stroke","#ddd");
+   link18.source(rect11);
+   link18.target(ellipse3);
+   link18.addTo(graph);
+
+   var rect12 = rect.clone();
+   rect12.position(400,120);
+   rect12.attr("label/text","darwin\n模拟器");
+   rect12.addTo(graph);
+
+   var link19 = new joint.shapes.standard.Link();
+   link19.attr("line/stroke","#ddd");
+   link19.source(rect8);
+   link19.target(rect12);
+   link19.addTo(graph);
+
+   var link20 = new joint.shapes.standard.Link();
+   link20.attr("line/stroke","#ddd");
+   link20.source(rect12);
+   link20.target(ellipse3);
+   link20.addTo(graph);
+
+   var link21 = new joint.shapes.standard.Link();
+   link21.attr("line/stroke","#ddd");
+   link21.source(ellipse5);
+   link21.target(rect8);
+   link21.addTo(graph);
+
+   var link22 = new joint.shapes.standard.Link();
+   link22.attr("line/stroke","#ddd");
+   link22.source(rect10);
+   link22.target(ellipse3);
+   link22.addTo(graph);
+
+
+    var cylinder = new joint.shapes.standard.Cylinder();
+    cylinder.resize(40, 40);
+    cylinder.position(200, 160);
+    cylinder.attr('root/title', 'joint.shapes.standard.Cylinder');
+    cylinder.attr('body/fill', 'blue');
+    cylinder.attr('top/fill', 'gray');
+    cylinder.attr('label/text', '模型池');
+    cylinder.attr('label/fill', 'white');
+    cylinder.attr();
+    cylinder.topRy('10%');
+    cylinder.addTo(graph);
+
+    var link23 = new joint.shapes.standard.Link();
+   link23.attr("line/stroke","#ddd");
+   link23.source(rect2);
+   link23.target(cylinder);
+   link23.addTo(graph);
+
+   var link24 = new joint.shapes.standard.Link();
+   link24.attr("line/stroke","#ddd");
+   link24.source(rect4);
+   link24.target(cylinder);
+   link24.addTo(graph);
+
+   var link25 = new joint.shapes.standard.Link();
+   link25.attr("line/stroke","#ddd");
+   link25.source(rect8);
+   link25.target(cylinder);
+   link25.addTo(graph);
+
+   var link26 = new joint.shapes.standard.Link();
+   link26.attr("line/stroke","#ddd");
+   link26.source(rect3);
+   link26.target(cylinder);
+   link26.addTo(graph);
+
+   paper.on({
+       'element:pointerdown':function(elementView,evt){
+           console.log("鼠标点击...");
+           if(elementView.model.attr("label/text") === "转换"){
+               console.log("点击模型转换");
+           }
+       }
+   });
+
+</script>
+
+</html>

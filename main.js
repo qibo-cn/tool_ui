@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, ipcMain, BrowserWindow} = require('electron')
+const {app, ipcMain, BrowserWindow,nativeTheme} = require('electron')
 const path = require('path')
 
 function createWindow () {
@@ -14,10 +14,11 @@ function createWindow () {
     }
   })
 
-  mainWindow.removeMenu(); // remove menu bar
+  // mainWindow.removeMenu(); // remove menu bar
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('main_page.html')
+  nativeTheme.themeSource="dark";
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
