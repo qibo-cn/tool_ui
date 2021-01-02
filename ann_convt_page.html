@@ -35,6 +35,9 @@
       <div id="tree_container"></div>
     </ul>
 
+
+    <div id="editor_container" style="width: 500px; height: 500px;"></div>
+
 </body>
 <style>
 
@@ -67,11 +70,15 @@
 </style>
 <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.css">
 <link rel="stylesheet" href="./resources/js/treejs-master/treejs.css">
+<link rel="stylesheet" href="./node_modules/monaco-editor/min/vs/editor/editor.main.css">
 <!-- You can also require other files to run in this process -->
 <script src="./node_modules/materialize-css/dist/js/materialize.js"></script>
 <script src="./resources/js/treejs-master/tree.js"></script>
 <script>
-    window.$ = window.jQuery = require("./node_modules/jquery/dist/jquery.js");
+      window.$ = window.jQuery = require("./node_modules/jquery/dist/jquery.js");
+</script>
+<!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
+<script>
 
     document.addEventListener('DOMContentLoaded', function() {
       var elem = document.querySelector('.sidenav');
@@ -82,6 +89,35 @@
     $("#backHome").on("click",function(){
       ipcRenderer.send("back_to_main_page");
     });
+
+		(function () {
+			const path = require('path');
+			const amdLoader = require('./node_modules/monaco-editor/min/vs/loader.js');
+			const amdRequire = amdLoader.require;
+			const amdDefine = amdLoader.require.define;
+
+			function uriFromPath(_path) {
+				var pathName = path.resolve(_path).replace(/\\/g, '/');
+				if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+					pathName = '/' + pathName;
+				}
+				return encodeURI('file://' + pathName);
+			}
+
+			amdRequire.config({
+				baseUrl: uriFromPath(path.join(__dirname, './node_modules/monaco-editor/min'))
+			});
+
+			// workaround monaco-css not understanding the environment
+			self.module = undefined;
+
+			amdRequire(['vs/editor/editor.main'], function () {
+				var editor = monaco.editor.create(document.getElementById('editor_container'), {
+					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+					language: 'javascript'
+				});
+			});
+		})();
 
     var root = new TreeNode("root");
     var n1 = new TreeNode("1");

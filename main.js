@@ -10,7 +10,8 @@ function createWindow () {
     icon:path.join(__dirname, "resources/favicon.ico"),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration:true
+      nodeIntegration:true,
+      worldSafeExecuteJavaScript: true
     }
   })
 
