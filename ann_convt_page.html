@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Darwin IDE</title>
+</head>
+<body>
+
+    <!-- 顶部标题栏 -->
+    <nav>
+      <div class="nav-wrapper blue darken-4">
+        <a href="#!" class="right" style="margin-right: 0;">
+          <img src="./resources/convertor_log.png" style="width: 105px;height: 100%;margin-left: 0;"></img>
+        </a>
+        <a href="#!" class="brand-logo center">模型转换器</a>
+        <ul>
+          <li>
+            <a id="backHome" href="#">
+              <i class="material-icons">arrow_back</i>
+            </a>
+          </li>
+          <li style="width: 30px;"></li>
+          <li>
+            <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large">
+              <i class="material-icons">menu</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <ul id="slide-out" class="sidenav" style="background-color: #333;">
+      <div id="tree_container"></div>
+    </ul>
+
+</body>
+<style>
+
+@media (prefers-color-scheme: dark) {
+  body { background:  #333; color: white; }
+}
+
+@media (prefers-color-scheme: light) {
+  body { background:  #ddd; color: black; }
+}
+
+  @font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v7/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    text-transform: none;
+    display: inline-block;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+</style>
+<link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.css">
+<link rel="stylesheet" href="./resources/js/treejs-master/treejs.css">
+<!-- You can also require other files to run in this process -->
+<script src="./node_modules/materialize-css/dist/js/materialize.js"></script>
+<script src="./resources/js/treejs-master/tree.js"></script>
+<script>
+    window.$ = window.jQuery = require("./node_modules/jquery/dist/jquery.js");
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var elem = document.querySelector('.sidenav');
+      var instance = new M.Sidenav(elem);
+    });
+
+    const {ipcRenderer} = require('electron');
+    $("#backHome").on("click",function(){
+      ipcRenderer.send("back_to_main_page");
+    });
+
+    var root = new TreeNode("root");
+    var n1 = new TreeNode("1");
+    var n11 = new TreeNode("1.1");
+    var n2 = new TreeNode("2");
+    var n3 = new TreeNode("3");
+    var n31 = new TreeNode("3.1");
+    var n32 = new TreeNode("3.2");
+    var n321 = new TreeNode("3.2.1");
+    var n33 = new TreeNode("3.3");
+
+    root.addChild(n1);
+    root.addChild(n2);
+    root.addChild(n3);
+
+    n1.addChild(n11);
+
+    n3.addChild(n31);
+    n3.addChild(n32);
+    n3.addChild(n33);
+
+    n3.setEnabled(false);
+
+    n32.addChild(n321);
+
+    var view = new TreeView(root, "#tree_container");
+
+</script>

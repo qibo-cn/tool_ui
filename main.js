@@ -26,13 +26,13 @@ function createWindow () {
   // receive page jump message
   ipcMain.on("jump_to_convertor_page",(evt,args)=>{
     console.log("Jump from main page to convertor page.");
-    mainWindow.loadFile("convertor.html");
+    mainWindow.loadFile("ann_convt_page.html");
     mainWindow.setSize(1030,710);
   });
 
   ipcMain.on("back_to_main_page",(evt,args)=>{
     console.log("Back to main page");
-    mainWindow.loadFile("index.html");
+    mainWindow.loadFile("main_page.html");
     mainWindow.setSize(800,600);
   });
 }
