@@ -33,7 +33,7 @@
     "keras-js": "^1.0.3",
     "layui-src": "^2.5.7",
     "loadash": "^1.0.0",
-    "materialize-css": "^1.0.0-rc.2",
+    "materialize-css": "^1.0.0",
     "node-pty": "^0.9.0",
     "react": "^17.0.1",
     "react-d3-tree": "^2.0.0",
