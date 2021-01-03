@@ -26,20 +26,73 @@
               <i class="material-icons">menu</i>
             </a>
           </li>
+          <li>
+            <a href="#" data-target="slide_editor" class="sidenav-trigger show-on-large">
+              <i class="material-icons">mode_edit</i>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i id="hide_logoutput" class="material-icons">keyboard_hide</i>
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
 
     <!-- 侧边栏 -->
-    <ul id="slide-out" class="sidenav" style="background-color: #333;">
+    <ul id="slide-out" class="sidenav resizable" style="background-color: #333;width: 20%;">
       <div id="tree_container"></div>
     </ul>
 
+    <!-- 编辑器界面 -->
+    <div id="slide_editor" class="sidenav editor-sidenav resizable" style="width: 70%;background-color: #333;">
+      <div style="width: 100%;height: 10%;">
+        <div class="card-content white-text" style="text-align: center;">
+          <span class="title">编辑器</span>
+        </div>
+        <div class="card-action">
+          <a href="#">
+            <i class="material-icons">file_upload</i>
+          </a>
+          <a style="width: 40px;"></a>
+          <a href="#">
+            <i class="material-icons">save</i>
+          </a>
+          <a style="width: 40px;"></a>
+          <a href="#">
+            <i class="material-icons">delete</i>
+          </a>
+        </div>
+      </div>
+      <div id="editor_container" style="width: 100%; height: 90%;"></div>
+    </div>
 
-    <div id="editor_container" style="width: 500px; height: 500px;"></div>
+
+    <!-- 交互主面板 -->
+    <div class="row" style="width: 100%; height: 100%; margin: 0;">
+
+    </div>
+    <!--日志输出栏-->
+    <div id="log_output_panel" class="row teal darken-4" style="position: fixed;bottom: 0;width: 100%;height: 160px;display: block;">
+      <div class="col m1  z-depth-2">
+        <i class="material-icons">save</i>
+        <br/>
+        <i class="material-icons">delete</i>
+      </div>
+      <div class="col m11" style="overflow: auto;">
+        ssacds
+        <br/>
+        ssss
+      </div>
+    </div>
 
 </body>
 <style>
+
+.editor-sidenav{
+  background-color: #333;
+}
 
 @media (prefers-color-scheme: dark) {
   body { background:  #333; color: white; }
@@ -67,13 +120,21 @@
     -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
   }
+
+  .resizable {
+    resize: both;
+    overflow: scroll;
+    border: 1px solid black;
+  }
 </style>
 <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.css">
 <link rel="stylesheet" href="./resources/js/treejs-master/treejs.css">
 <link rel="stylesheet" href="./node_modules/monaco-editor/min/vs/editor/editor.main.css">
+<link rel="stylesheet" href="./node_modules/xterm/css/xterm.css">
 <!-- You can also require other files to run in this process -->
 <script src="./node_modules/materialize-css/dist/js/materialize.js"></script>
 <script src="./resources/js/treejs-master/tree.js"></script>
+<script src="./node_modules/xterm/lib/xterm.js"></script>
 <script>
       window.$ = window.jQuery = require("./node_modules/jquery/dist/jquery.js");
 </script>
@@ -81,10 +142,20 @@
 <script>
 
     document.addEventListener('DOMContentLoaded', function() {
-      var elem = document.querySelector('.sidenav');
-      var instance = new M.Sidenav(elem);
-    });
+      var elem = document.querySelector('#slide-out');
+      var instance = new M.Sidenav(elem,{"edge":"left"});
+      var editor_elem = document.querySelector("#slide_editor");
+      var editor_inst = new M.Sidenav(editor_elem);
 
+      $("#hide_logoutput").on("click",function(){
+        if($("#log_output_panel").css("height") === "0px"){
+          $("#log_output_panel").css("height","160px")
+        }else{
+          $("#log_output_panel").css("height","0px")
+        }
+      });
+
+    });
     const {ipcRenderer} = require('electron');
     $("#backHome").on("click",function(){
       ipcRenderer.send("back_to_main_page");
@@ -113,9 +184,10 @@
 
 			amdRequire(['vs/editor/editor.main'], function () {
 				var editor = monaco.editor.create(document.getElementById('editor_container'), {
-					value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+					value: "",
 					language: 'javascript'
-				});
+        });
+        monaco.editor.setTheme('vs-dark');
 			});
 		})();
 
