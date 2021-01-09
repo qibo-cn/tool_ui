@@ -33,9 +33,14 @@
                 <li id="menu_proj_exit">保存工程</li>
               </ul>
           </li>
-          <li style="margin-left: 10px;">
-              <img id="menu_data_img" src="./resources/menu_data.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/>
+          <li id="data_mange" class="dropdown-trigger" data-target="data_dropdown" style="margin-left: 10px;">
+              <img id="menu_data_img" src="./resources/menu_data.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"></img>
               <span style="font-size: 10px;">数据</span>
+              <ul id="data_dropdown" class="dropdown-content">
+                <li id="data_import">导入数据</li>
+                <li id="data_vis">可视化数据</li>
+                <li class="divider" tabindex="-1"></li>
+              </ul>
           </li>
           <li style="margin-left: 10px;">
               <img id="menu_model_img" src="./resources/menu_model.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/>
@@ -155,14 +160,21 @@
 <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
 <script>
+  const {ipcRenderer} = require('electron');
+  const fs = require("fs");
+
     document.addEventListener('DOMContentLoaded',function(){
       var menu_proj_dropdown = document.getElementById("menu_proj_dropdown");
+      var data_dropdown = document.getElementById("data_dropdown");
 
       var elems = document.querySelectorAll('.dropdown-trigger');
       var instances = M.Dropdown.init(elems, {});
 
       menu_proj_dropdown.onmouseleave = function(){
           instances[0].close();
+      }
+      data_dropdown.onmouseleave = function(){
+        instances[1].close();
       }
       document.getElementById("hide_menu_img").onclick = function(){
         document.getElementById("menu_bar").style.height = "40px";
@@ -240,8 +252,8 @@
     //     monaco.editor.setTheme('vs-dark');
 		// 	});
     // })();
-    
-    // 添加左侧导航栏
+
+      // 添加左侧导航栏
     var root = new TreeNode("项目");
     var model_node = new TreeNode("模型");
     var model_img_node = new TreeNode("图像分类模型");
@@ -257,12 +269,41 @@
     model_node.addChild(model_voice_node);
     model_img_node.addChild(new TreeNode("-"));
     model_voice_node.addChild(new TreeNode("-"));
+    model_img_node.setExpanded(false);
+    model_voice_node.setExpanded(false);
     data_node.addChild(data_img_node);
     data_node.addChild(data_voice_node);
     data_img_node.addChild(new TreeNode("-"));
     data_voice_node.addChild(new TreeNode("-"));
+    data_img_node.setExpanded(false);
+    data_voice_node.setExpanded(false);
 
-    var tree_view = new TreeView(root, "#tree_container");
+    $("#menu_proj_new").on("click",function(){
+      ipcRenderer.send("new project");
+      ipcRenderer.on("new project save path", (evt,args)=>{
+        console.log("target path is ["+args+"]");
+        fs.writeFile(args, "tmp data",function(err){
+          console.log("write finished");
+        });
+      });
+
+        var tree_view = new TreeView(root, "#tree_container");
+    });
+
+    $("#data_import").on("click",function(){
+      console.log("导入数据");
+      ipcRenderer.send("import data");
+      ipcRenderer.on("imported data paths",(evt,args)=>{
+        console.log("imported data paths: "+args);
+        filePaths = JSON.parse(args);
+        console.log("prepare to add "+filePaths.length+" data packs");
+        // add data file to tree view
+        for(var i=0;i<filePaths.length;++i){
+          data_img_node.addChild(new TreeNode(filePaths[i]));
+        }
+      });
+
+    });
 
     // var root = new TreeNode("root");
     // var n1 = new TreeNode("1");

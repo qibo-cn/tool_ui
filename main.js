@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
-const {app, ipcMain, BrowserWindow,nativeTheme} = require('electron')
+const {app, ipcMain, BrowserWindow,nativeTheme, dialog} = require('electron')
 const path = require('path')
+const diaolg = require('electron').remote;
 
 function createWindow () {
   // Create the browser window.
@@ -41,6 +42,28 @@ function createWindow () {
     console.log("Jumped to main page.");
     mainWindow.loadFile("convertor_page_v2.html");
     mainWindow.setSize(1220,720);
+  });
+
+  ipcMain.on("new project",(evt,args)=>{
+    console.log("create new project");
+    dialog.showSaveDialog(mainWindow,{
+      title:"新建项目",
+    }).then(function(result){
+      console.log("result is "+result.filePath);
+      evt.sender.send("new project save path", result.filePath); // response of save file path
+    });
+  });
+
+
+  ipcMain.on("import data",(evt,args)=>{
+    console.log("import data");
+    dialog.showOpenDialog(mainWindow,{
+      title:"选择数据",
+      properties:["multiSelections"]
+    }).then(function(result){
+      console.log("file paths are :"+result.filePaths);
+      evt.sender.send("imported data paths", JSON.stringify(result.filePaths));
+    });
   });
 }
 
