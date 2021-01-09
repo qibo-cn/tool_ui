@@ -58,7 +58,17 @@
       <div id="tree_container" class="col-sm-2 z-depth-1" style="overflow: auto;height: 375px;"></div>
       <div id="main_panel" class="col-sm-8">主面板</div>
       <div id="config_panel" class="col-sm-2 z-depth-1">
-        <span>配置区</span>
+        <div class="row">
+          <div class="z-depth-1 col-sm-8" style="text-align: center;margin-left: 0px;">配置面板</div>
+          <div id="toggle_config_panel_hide" class="col-sm-4">
+            <img src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;">
+          </div>
+        </div>
+      </div>
+      <div id="toggle_config_panel_show" style="width: 20px;position: absolute;float:right; right: 5px;display: none;">
+        <div class="row">
+          <img id="hide_config_panel_img" src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;">
+        </div>
       </div>
     </div>
 
@@ -205,6 +215,16 @@
         document.getElementById("hide_menu_img").style.display = "inline-block";
       }
 
+      // 隐藏配置面板
+      $("#toggle_config_panel_hide").on("click",()=>{
+        document.getElementById("config_panel").style.display="none";
+        document.getElementById("toggle_config_panel_show").style.display = "inline-block";
+      });
+
+      $("#hide_config_panel_img").on("click",()=>{
+        document.getElementById("config_panel").style.display="inline-block";
+        document.getElementById("toggle_config_panel_show").style.display = "none";
+      });
     });
     // document.addEventListener('DOMContentLoaded', function() {
     //   var elem = document.querySelector('#slide-out');
