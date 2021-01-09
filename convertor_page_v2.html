@@ -57,8 +57,28 @@
     <div class="row" style="width: 100%;height: 375px;">
       <div id="tree_container" class="col-sm-2 z-depth-1" style="overflow: auto;height: 375px;"></div>
       <div id="main_panel" class="col-sm-8">
+        <div class="row" style="display: inline-block;width: 97%;">
+          <div class="col-sm-3">
+            <!-- 数据基本信息表格 -->
+            <table>
+              <caption style="caption-side: top;text-align: center;">导入数据统计</caption>
+              <tr>
+                <td>总数据大小</td>
+                <td>xx</td>
+              </tr>
+              <tr>
+                <td>测试数据量</td>
+                <td>xxx</td>
+              </tr>
+              <tr>
+                <td>验证数据量</td>
+                <td>xxx</td>
+              </tr>
+            </table>
+          </div>
+        </div>
         <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
-          <img src="./resources/full_screen.png" style="width: 30px;height: 30px;">
+          <img src="./resources/full_screen.png" style="width: 30px;height: 30px;margin-right: 20px;">
         </div>
       </div>
       <div id="config_panel" class="col-sm-2 z-depth-1">
@@ -228,11 +248,13 @@
       $("#toggle_config_panel_hide").on("click",()=>{
         document.getElementById("config_panel").style.display="none";
         document.getElementById("toggle_config_panel_show").style.display = "inline-block";
+        document.getElementById("main_panel").setAttribute("class","col-sm-10");
       });
 
       $("#hide_config_panel_img").on("click",()=>{
         document.getElementById("config_panel").style.display="inline-block";
         document.getElementById("toggle_config_panel_show").style.display = "none";
+        document.getElementById("main_panel").setAttribute("class","col-sm-8");
       });
 
 
@@ -274,6 +296,10 @@
           document.getElementById("main_panel").style.background="#F8F9F9";
           document.getElementById("main_panel").setAttribute("class","");
         }
+      });
+
+      // 数据可视化
+      $("#data_vis").on("click",function(){
       });
     });
     // document.addEventListener('DOMContentLoaded', function() {
