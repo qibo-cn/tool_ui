@@ -40,7 +40,7 @@ function createWindow () {
   ipcMain.on("jump_to_convertor_page",(evt,args)=>{
     console.log("Jumped to main page.");
     mainWindow.loadFile("convertor_page_v2.html");
-    mainWindow.setSize(1030,720);
+    mainWindow.setSize(1220,720);
   });
 }
 

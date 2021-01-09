@@ -50,10 +50,12 @@
     </nav>
 
     <!-- 左侧导航栏 -->
-    <div class="row" style="width: 100%;">
-      <div id="tree_container" class="col-sm-2"></div>
+    <div class="row" style="width: 100%;height: 375px;">
+      <div id="tree_container" class="col-sm-2 z-depth-1" style="overflow: auto;height: 375px;"></div>
       <div id="main_panel" class="col-sm-8">主面板</div>
-      <div id="config_panel" class="col-sm-2">配置</div>
+      <div id="config_panel" class="col-sm-2 z-depth-1">
+        <span>配置区</span>
+      </div>
     </div>
 
     <!-- 编辑器界面 -->
@@ -237,32 +239,55 @@
     //     });
     //     monaco.editor.setTheme('vs-dark');
 		// 	});
-		// })();
+    // })();
+    
+    // 添加左侧导航栏
+    var root = new TreeNode("项目");
+    var model_node = new TreeNode("模型");
+    var model_img_node = new TreeNode("图像分类模型");
+    var model_voice_node = new TreeNode("语音识别模型");
+    
+    var data_node = new TreeNode("数据");
+    var data_img_node = new TreeNode("图像分类数据");
+    var data_voice_node = new TreeNode("语音识别数据");
 
-    var root = new TreeNode("root");
-    var n1 = new TreeNode("1");
-    var n11 = new TreeNode("1.1");
-    var n2 = new TreeNode("2");
-    var n3 = new TreeNode("3");
-    var n31 = new TreeNode("3.1");
-    var n32 = new TreeNode("3.2");
-    var n321 = new TreeNode("3.2.1");
-    var n33 = new TreeNode("3.3");
+    root.addChild(model_node);
+    root.addChild(data_node);
+    model_node.addChild(model_img_node);
+    model_node.addChild(model_voice_node);
+    model_img_node.addChild(new TreeNode("-"));
+    model_voice_node.addChild(new TreeNode("-"));
+    data_node.addChild(data_img_node);
+    data_node.addChild(data_voice_node);
+    data_img_node.addChild(new TreeNode("-"));
+    data_voice_node.addChild(new TreeNode("-"));
 
-    root.addChild(n1);
-    root.addChild(n2);
-    root.addChild(n3);
+    var tree_view = new TreeView(root, "#tree_container");
 
-    n1.addChild(n11);
+    // var root = new TreeNode("root");
+    // var n1 = new TreeNode("1");
+    // var n11 = new TreeNode("1.1");
+    // var n2 = new TreeNode("2");
+    // var n3 = new TreeNode("3");
+    // var n31 = new TreeNode("3.1");
+    // var n32 = new TreeNode("3.2");
+    // var n321 = new TreeNode("3.2.1");
+    // var n33 = new TreeNode("3.3");
 
-    n3.addChild(n31);
-    n3.addChild(n32);
-    n3.addChild(n33);
+    // root.addChild(n1);
+    // root.addChild(n2);
+    // root.addChild(n3);
 
-    n3.setEnabled(false);
+    // n1.addChild(n11);
 
-    n32.addChild(n321);
+    // n3.addChild(n31);
+    // n3.addChild(n32);
+    // n3.addChild(n33);
 
-    var view = new TreeView(root, "#tree_container");
+    // n3.setEnabled(false);
+
+    // n32.addChild(n321);
+
+    // var view = new TreeView(root, "#tree_container");
 
 </script>
