@@ -53,10 +53,14 @@
       </div>
     </nav>
 
-    <!-- 左侧导航栏 -->
+    <!-- 左侧导航栏 主面板与配置面板 -->
     <div class="row" style="width: 100%;height: 375px;">
       <div id="tree_container" class="col-sm-2 z-depth-1" style="overflow: auto;height: 375px;"></div>
-      <div id="main_panel" class="col-sm-8">主面板</div>
+      <div id="main_panel" class="col-sm-8">
+        <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
+          <img src="./resources/full_screen.png" style="width: 30px;height: 30px;">
+        </div>
+      </div>
       <div id="config_panel" class="col-sm-2 z-depth-1">
         <div class="row">
           <div class="z-depth-1 col-sm-8" style="text-align: center;margin-left: 0px;">配置面板</div>
@@ -246,6 +250,29 @@
           document.getElementById("toggle_output_panel").style.float="right";
           document.getElementById("toggle_output_panel").style.position="fixed";
           document.getElementById("toggle_output_panel").style.bottom="5px";
+        }
+      });
+
+      // 切换主面板全屏
+      $("#full_screen_toggle").on("click",()=>{
+        if(document.getElementById("main_panel").getAttribute("class") === ""){
+          document.getElementById("main_panel").style.zIndex = "";
+          document.getElementById("main_panel").style.width = "";
+          document.getElementById("main_panel").style.height = "";
+          document.getElementById("main_panel").style.position = "";
+          document.getElementById("main_panel").style.top = "";
+          document.getElementById("main_panel").style.left = "";
+          document.getElementById("main_panel").style.background="";
+          document.getElementById("main_panel").setAttribute("class","col-sm-8");
+        }else{
+          document.getElementById("main_panel").style.zIndex = "100";
+          document.getElementById("main_panel").style.width = "100%";
+          document.getElementById("main_panel").style.height = "100%";
+          document.getElementById("main_panel").style.position = "fixed";
+          document.getElementById("main_panel").style.top = "0px";
+          document.getElementById("main_panel").style.left = "0px";
+          document.getElementById("main_panel").style.background="#F8F9F9";
+          document.getElementById("main_panel").setAttribute("class","");
         }
       });
     });
