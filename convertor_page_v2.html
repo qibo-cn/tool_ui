@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Darwin IDE</title>
+</head>
+<body>
+
+    <!-- 顶部标题栏 -->
+    <nav id="menu_nav">
+      <div id="menu_bar" class="nav-wrapper white blue-text text-darken-4" style="height: 80px;">
+        <!-- <a href="#!" class="right" style="margin-right: 0;">
+          <img src="./resources/convertor_log.png" style="width: 105px;height: 100%;margin-left: 0;"></img>
+        </a>
+        <a href="#!" class="brand-logo center">模型转换器</a> -->
+        <a id="hide_menu" class="right" style="margin-right: 0;margin-bottom: 0;">
+          <img id="hide_menu_img" src="./resources/hide.png" style="width: 15px;height: 10px; margin-right: 10px;vertical-align: bottom;"/>
+          <img id="show_menu_img" src="./resources/visible.png" style="width: 15px;height: 10px; margin-right: 10px;display: none;"/>
+        </a>
+        <ul>
+          <!-- <li>
+            <a id="backHome" href="#">
+              <i class="material-icons">arrow_back</i>
+            </a>
+          </li> -->
+          <li id="menu_proj" class="dropdown-trigger" data-target="menu_proj_dropdown" style="margin-left: 10px;">
+              <img id="menu_proj_img" src="./resources/menu_proj.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"></img>
+              <span style="font-size: 10px;">工程</span>
+              <ul id="menu_proj_dropdown" class="dropdown-content">
+                <li id="menu_proj_new">新建工程</li>
+                <li id="menu_proj_open">打开工程</li>
+                <li id="menu_proj_exit">保存工程</li>
+              </ul>
+          </li>
+          <li style="margin-left: 10px;">
+              <img id="menu_data_img" src="./resources/menu_data.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/>
+              <span style="font-size: 10px;">数据</span>
+          </li>
+          <li style="margin-left: 10px;">
+              <img id="menu_model_img" src="./resources/menu_model.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/>
+              <span style="font-size: 10px;">模型</span>
+          </li>
+          <li style="margin-left: 10px;">
+            <img id="menu_run_img" src="./resources/menu_run.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/>
+            <span style="font-size: 10px;">运行</span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <ul id="slide-out" class="sidenav resizable" style="background-color: #333;width: 20%;">
+      <div id="tree_container"></div>
+    </ul>
+
+    <!-- 编辑器界面 -->
+    <div id="slide_editor" class="sidenav editor-sidenav resizable" style="width: 70%;background-color: #333;">
+      <div style="width: 100%;height: 10%;">
+        <div class="card-content white-text" style="text-align: center;">
+          <span class="title">编辑器</span>
+        </div>
+        <div class="card-action">
+          <a href="#">
+            <i class="material-icons">file_upload</i>
+          </a>
+          <a style="width: 40px;"></a>
+          <a href="#">
+            <i class="material-icons">save</i>
+          </a>
+          <a style="width: 40px;"></a>
+          <a href="#">
+            <i class="material-icons">delete</i>
+          </a>
+        </div>
+      </div>
+      <div id="editor_container" style="width: 100%; height: 90%;"></div>
+    </div>
+
+
+    <!-- 交互主面板 -->
+    <div class="row" style="width: 100%; height: 100%; margin: 0;">
+
+    </div>
+    <!--日志输出栏-->
+    <div id="log_output_panel" class="row teal darken-4" style="position: fixed;bottom: 0;width: 100%;height: 160px;display: block;">
+      <div class="col m1  z-depth-2">
+        <i class="material-icons">save</i>
+        <br/>
+        <i class="material-icons">delete</i>
+      </div>
+      <div class="col m10" style="overflow: auto;height: 300px;">
+      </div>
+    </div>
+</body>
+<style>
+
+.editor-sidenav{
+  background-color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background:  #333; color: white; }
+}
+
+@media (prefers-color-scheme: light) {
+  body { background:  #ddd; color: black; }
+}
+
+  @font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v7/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    text-transform: none;
+    display: inline-block;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .resizable {
+    resize: both;
+    overflow: scroll;
+    border: 1px solid black;
+  }
+  .dropdown-content{
+   width: max-content !important;
+   height:auto !important;
+}
+</style>
+<link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.css">
+<link rel="stylesheet" href="./resources/js/treejs-master/treejs.css">
+<link rel="stylesheet" href="./node_modules/monaco-editor/min/vs/editor/editor.main.css">
+<link rel="stylesheet" href="./node_modules/xterm/css/xterm.css">
+<!-- You can also require other files to run in this process -->
+<script>
+  window.$ = window.jQuery = require("./node_modules/jquery/dist/jquery.js");
+</script>
+<script src="./resources/js/treejs-master/tree.js"></script>
+<script src="./node_modules/xterm/lib/xterm.js"></script>
+<script src="./node_modules/materialize-css/dist/js/materialize.js"></script>
+<!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
+<script>
+    document.addEventListener('DOMContentLoaded',function(){
+      var menu_proj_dropdown = document.getElementById("menu_proj_dropdown");
+
+      var elems = document.querySelectorAll('.dropdown-trigger');
+      var instances = M.Dropdown.init(elems, {});
+
+      menu_proj_dropdown.onmouseleave = function(){
+          instances[0].close();
+      }
+      document.getElementById("hide_menu_img").onclick = function(){
+        document.getElementById("menu_bar").style.height = "40px";
+        document.getElementById("menu_nav").style.height = "40px";
+        document.getElementById("menu_proj_img").style.display="none";
+        document.getElementById("menu_data_img").style.display="none";
+        document.getElementById("menu_model_img").style.display="none";
+        document.getElementById("menu_run_img").style.display="none";
+
+        // document.getElementById("hide_menu_img").style.marginRight="10px";
+        // document.getElementById("hide_menu_img").style.verticalAlign="bottom";
+        document.getElementById("show_menu_img").style.display = "inline-block";
+        document.getElementById("hide_menu_img").style.display = "none";
+      }
+
+      document.getElementById("show_menu_img").onclick = function(){
+        document.getElementById("menu_bar").style.height = "80px";
+        document.getElementById("menu_nav").style.height = "80px";
+        document.getElementById("menu_proj_img").style.display="block";
+        document.getElementById("menu_data_img").style.display="block";
+        document.getElementById("menu_model_img").style.display="block";
+        document.getElementById("menu_run_img").style.display="block";
+
+        document.getElementById("show_menu_img").style.display = "none";
+        document.getElementById("hide_menu_img").style.display = "inline-block";
+      }
+
+    });
+    // document.addEventListener('DOMContentLoaded', function() {
+    //   var elem = document.querySelector('#slide-out');
+    //   var instance = new M.Sidenav(elem,{"edge":"left"});
+    //   var editor_elem = document.querySelector("#slide_editor");
+    //   var editor_inst = new M.Sidenav(editor_elem);
+
+    //   $("#hide_logoutput").on("click",function(){
+    //     if($("#log_output_panel").css("height") === "0px"){
+    //       $("#log_output_panel").css("height","160px")
+    //     }else{
+    //       $("#log_output_panel").css("height","0px")
+    //     }
+    //   });
+
+    // });
+    // const {ipcRenderer} = require('electron');
+    // $("#backHome").on("click",function(){
+    //   ipcRenderer.send("back_to_main_page");
+    // });
+
+		// (function () {
+		// 	const path = require('path');
+		// 	const amdLoader = require('./node_modules/monaco-editor/min/vs/loader.js');
+		// 	const amdRequire = amdLoader.require;
+		// 	const amdDefine = amdLoader.require.define;
+
+		// 	function uriFromPath(_path) {
+		// 		var pathName = path.resolve(_path).replace(/\\/g, '/');
+		// 		if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+		// 			pathName = '/' + pathName;
+		// 		}
+		// 		return encodeURI('file://' + pathName);
+		// 	}
+
+		// 	amdRequire.config({
+		// 		baseUrl: uriFromPath(path.join(__dirname, './node_modules/monaco-editor/min'))
+		// 	});
+
+		// 	// workaround monaco-css not understanding the environment
+		// 	self.module = undefined;
+
+		// 	amdRequire(['vs/editor/editor.main'], function () {
+		// 		var editor = monaco.editor.create(document.getElementById('editor_container'), {
+		// 			value: "",
+		// 			language: 'javascript'
+    //     });
+    //     monaco.editor.setTheme('vs-dark');
+		// 	});
+		// })();
+
+    // var root = new TreeNode("root");
+    // var n1 = new TreeNode("1");
+    // var n11 = new TreeNode("1.1");
+    // var n2 = new TreeNode("2");
+    // var n3 = new TreeNode("3");
+    // var n31 = new TreeNode("3.1");
+    // var n32 = new TreeNode("3.2");
+    // var n321 = new TreeNode("3.2.1");
+    // var n33 = new TreeNode("3.3");
+
+    // root.addChild(n1);
+    // root.addChild(n2);
+    // root.addChild(n3);
+
+    // n1.addChild(n11);
+
+    // n3.addChild(n31);
+    // n3.addChild(n32);
+    // n3.addChild(n33);
+
+    // n3.setEnabled(false);
+
+    // n32.addChild(n321);
+
+    // var view = new TreeView(root, "#tree_container");
+
+</script>

@@ -5,8 +5,8 @@ const path = require('path')
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 710,
+    height: 660,
     icon:path.join(__dirname, "resources/favicon.ico"),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -15,26 +15,32 @@ function createWindow () {
     }
   })
 
-  // mainWindow.removeMenu(); // remove menu bar
+  // mainWindow.setMenuBarVisibility(false);
 
   // and load the index.html of the app.
-  mainWindow.loadFile('main_page.html')
-  nativeTheme.themeSource="dark";
+  mainWindow.loadFile('main_page_v2.html');
+  nativeTheme.themeSource="light";
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
   // receive page jump message
-  ipcMain.on("jump_to_convertor_page",(evt,args)=>{
-    console.log("Jump from main page to convertor page.");
-    mainWindow.loadFile("ann_convt_page.html");
-    mainWindow.setSize(1030,710);
-  });
+  // ipcMain.on("jump_to_convertor_page",(evt,args)=>{
+  //   console.log("Jump from main page to convertor page.");
+  //   mainWindow.loadFile("ann_convt_page.html");
+  //   mainWindow.setSize(1030,710);
+  // });
 
-  ipcMain.on("back_to_main_page",(evt,args)=>{
-    console.log("Back to main page");
-    mainWindow.loadFile("main_page.html");
-    mainWindow.setSize(800,600);
+  // ipcMain.on("back_to_main_page",(evt,args)=>{
+  //   console.log("Back to main page");
+  //   mainWindow.loadFile("main_page.html");
+  //   mainWindow.setSize(800,600);
+  // });
+
+  ipcMain.on("jump_to_convertor_page",(evt,args)=>{
+    console.log("Jumped to main page.");
+    mainWindow.loadFile("convertor_page_v2.html");
+    mainWindow.setSize(1030,720);
   });
 }
 
