@@ -58,23 +58,27 @@
       <div id="tree_container" class="col-sm-2 z-depth-1" style="overflow: auto;height: 375px;"></div>
       <div id="main_panel" class="col-sm-8">
         <div class="row" style="display: inline-block;width: 97%;">
-          <div class="col-sm-3">
+          <div class="col m3">
             <!-- 数据基本信息表格 -->
             <table>
               <caption style="caption-side: top;text-align: center;">导入数据统计</caption>
               <tr>
                 <td>总数据大小</td>
-                <td>xx</td>
+                <td id="total_data_amount"></td>
               </tr>
               <tr>
                 <td>测试数据量</td>
-                <td>xxx</td>
+                <td id="test_data_amount"></td>
               </tr>
               <tr>
                 <td>验证数据量</td>
-                <td>xxx</td>
+                <td id="val_data_amount"></td>
               </tr>
             </table>
+          </div>
+          <div class="col m5">
+            <div id="pie_chart_container" style="width: 440px; height: 360px;">
+            </div>
           </div>
         </div>
         <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
@@ -201,9 +205,12 @@
 <script>
   const {ipcRenderer} = require('electron');
   const fs = require("fs");
+  const exec = require("child_process").exec;
+  var path = require("path");
 
   var projFilePath = undefined;
   var tree_view = undefined;
+  var data_file_paths = undefined; // 导入的数据文件路径列表
 
     document.addEventListener('DOMContentLoaded',function(){
       var menu_proj_dropdown = document.getElementById("menu_proj_dropdown");
@@ -300,8 +307,79 @@
 
       // 数据可视化
       $("#data_vis").on("click",function(){
+        // 运行py脚本
+        console.log("curr path is :"+__dirname);
+        var script_path = path.join(__dirname, "inner_scripts","data_analyze.py");
+        var cmd_str = "python " + script_path + " "  + data_file_paths[0] + "  " + data_file_paths[1] + "  "+ data_file_paths[2];
+        exec(cmd_str, function(err, stdout, stderr){
+          if(err){
+            console.log("get error while running script "+err);
+          }else{
+            console.log("script running finish.");
+            fs.readFile(path.join(__dirname,"inner_scripts","data_info.json"), "utf-8",(err,data)=>{
+              console.log("Read data info....");
+              console.log("data is :"+data);
+              data = JSON.parse(data);
+              $("#total_data_amount").text(data.total_data_count);
+              $("#test_data_amount").text(data.test_data_count);
+              $("#val_data_amount").text(data.norm_data_count);
+              data_classes = data.cls_counts;
+              var cls_names=[];
+              var cls_items=[];
+              for(var i=0;i<data_classes.length;++i){
+                cls_names.push(""+i);
+                cls_items.push({"name":""+i, "value":data_classes[i]});
+              }
+              display_data_pie_chart(cls_names, cls_items);
+            });
+          }
+        });
       });
     });
+
+    function display_data_pie_chart(cls_names, cls_items){
+      var pie_chart_data = echarts.init(document.getElementById("pie_chart_container"));
+        var option = {
+              title: {
+                  text: '数据总体分布',
+                  left: 'center'
+              },
+              tooltip: {
+                  trigger: 'item',
+                  formatter: '{a} <br/>{b} : {c} ({d}%)'
+              },
+              legend: {
+                  orient: 'vertical',
+                  left: 'left',
+                  data: cls_names
+                  // data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+              },
+              series: [
+                  {
+                      name: '访问来源',
+                      type: 'pie',
+                      radius: '55%',
+                      center: ['50%', '60%'],
+                      data: cls_items,
+                      // data: [
+                      //     {value: 335, name: '直接访问'},
+                      //     {value: 310, name: '邮件营销'},
+                      //     {value: 234, name: '联盟广告'},
+                      //     {value: 135, name: '视频广告'},
+                      //     {value: 1548, name: '搜索引擎'}
+                      // ],
+                      emphasis: {
+                          itemStyle: {
+                              shadowBlur: 10,
+                              shadowOffsetX: 0,
+                              shadowColor: 'rgba(0, 0, 0, 0.5)'
+                          }
+                      }
+                  }
+              ]
+          };
+          pie_chart_data.setOption(option);
+    }
     // document.addEventListener('DOMContentLoaded', function() {
     //   var elem = document.querySelector('#slide-out');
     //   var instance = new M.Sidenav(elem,{"edge":"left"});
@@ -407,6 +485,7 @@
 
           // add data to side tree view explorer
           file_paths = JSON.parse(data).data_paths;
+          data_file_paths = file_paths
           console.log("file paths: "+file_paths);
           data_img_node.removeChildPos(0);
           for(var i=0;i<file_paths.length;++i){
@@ -422,6 +501,7 @@
       ipcRenderer.on("imported data paths",(evt,args)=>{
         console.log("imported data paths: "+args);
         filePaths = JSON.parse(args);
+        data_file_paths = filePaths;
         console.log("prepare to add "+filePaths.length+" data packs");
         // add data file to tree view
         data_img_node.removeChildPos(0);
