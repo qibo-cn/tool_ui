@@ -30,7 +30,6 @@
               <ul id="menu_proj_dropdown" class="dropdown-content">
                 <li id="menu_proj_new">新建工程</li>
                 <li id="menu_proj_open">打开工程</li>
-                <li id="menu_proj_exit">保存工程</li>
               </ul>
           </li>
           <li id="data_mange" class="dropdown-trigger" data-target="data_dropdown" style="margin-left: 10px;">
@@ -158,10 +157,14 @@
 <script src="./node_modules/xterm/lib/xterm.js"></script>
 <script src="./node_modules/materialize-css/dist/js/materialize.js"></script>
 <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./node_modules/echarts/dist/echarts.min.js"></script>
 <!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
 <script>
   const {ipcRenderer} = require('electron');
   const fs = require("fs");
+
+  var projFilePath = undefined;
+  var tree_view = undefined;
 
     document.addEventListener('DOMContentLoaded',function(){
       var menu_proj_dropdown = document.getElementById("menu_proj_dropdown");
@@ -282,12 +285,39 @@
       ipcRenderer.send("new project");
       ipcRenderer.on("new project save path", (evt,args)=>{
         console.log("target path is ["+args+"]");
+        projFilePath = args;
         fs.writeFile(args, "tmp data",function(err){
           console.log("write finished");
         });
       });
 
-        var tree_view = new TreeView(root, "#tree_container");
+        tree_view = new TreeView(root, "#tree_container");
+    });
+
+    // 打开已有的项目文件
+    $("#menu_proj_open").on("click",function(){
+      ipcRenderer.send("open project");
+      ipcRenderer.on("opened proj path",(evt,args)=>{
+        console.log("proj file path is ["+args[0]+"]");
+        fs.readFile(args[0], 'utf-8', (err, data)=>{
+          if(err){
+            return;
+          }
+          console.log("read file content is:"+data);
+          // initialize tree view if necessary
+          if(!tree_view){
+            tree_view = new TreeView(root, '#tree_container');
+          }
+
+          // add data to side tree view explorer
+          file_paths = JSON.parse(data).data_paths;
+          console.log("file paths: "+file_paths);
+          data_img_node.removeChildPos(0);
+          for(var i=0;i<file_paths.length;++i){
+            data_img_node.addChild(new TreeNode(file_paths[i]));
+          }
+        });
+      });
     });
 
     $("#data_import").on("click",function(){
@@ -298,9 +328,12 @@
         filePaths = JSON.parse(args);
         console.log("prepare to add "+filePaths.length+" data packs");
         // add data file to tree view
+        data_img_node.removeChildPos(0);
         for(var i=0;i<filePaths.length;++i){
           data_img_node.addChild(new TreeNode(filePaths[i]));
         }
+        fs.writeFile(projFilePath, JSON.stringify({"data_paths":filePaths}), function(err){
+        });
       });
 
     });

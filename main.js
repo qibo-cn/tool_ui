@@ -54,6 +54,15 @@ function createWindow () {
     });
   });
 
+  ipcMain.on("open project",(evt, args)=>{
+    console.log("open existing project");
+    dialog.showOpenDialog(mainWindow,{
+      title:"选择项目文件"
+    }).then(function(result){
+      console.log("selected project file path :"+result.filePaths);
+      evt.sender.send("opened proj path",result.filePaths);
+    });
+  });
 
   ipcMain.on("import data",(evt,args)=>{
     console.log("import data");
