@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100%;width: 100%;">
 
 <head>
   <meta charset="UTF-8">
   <title>Darwin IDE</title>
 </head>
-<body>
+<body class="dark-mode" style="height: 100%;width: 100%;">
 
     <!-- 顶部标题栏 -->
-    <nav id="menu_nav">
-      <div id="menu_bar" class="nav-wrapper white blue-text text-darken-4" style="height: 80px;">
+    <nav id="menu_nav" class="dark-mode" style="height: 80px;">
+      <div id="menu_bar" class="nav-wrapper gray-text text-darken-4" style="height: 80px;">
         <!-- <a href="#!" class="right" style="margin-right: 0;">
           <img src="./resources/convertor_log.png" style="width: 105px;height: 100%;margin-left: 0;"></img>
         </a>
@@ -54,48 +54,62 @@
     </nav>
 
     <!-- 左侧导航栏 主面板与配置面板 -->
-    <div class="row" style="width: 100%;height: 375px;">
-      <div id="tree_container" class="col-sm-2 z-depth-1" style="overflow: auto;height: 375px;"></div>
-      <div id="main_panel" class="col-sm-8">
-        <div class="row" style="display: inline-block;width: 97%;">
-          <div class="col m3">
-            <!-- 数据基本信息表格 -->
-            <table>
-              <caption style="caption-side: top;text-align: center;">导入数据统计</caption>
-              <tr>
-                <td>总数据大小</td>
-                <td id="total_data_amount"></td>
-              </tr>
-              <tr>
-                <td>测试数据量</td>
-                <td id="test_data_amount"></td>
-              </tr>
-              <tr>
-                <td>验证数据量</td>
-                <td id="val_data_amount"></td>
-              </tr>
-            </table>
-          </div>
-          <div class="col m5">
-            <div id="pie_chart_container" style="width: 440px; height: 360px;">
+    <div class="row" style="height: calc(100vh - 140px);width: 100%;">
+      <div class="col-sm-2 z-depth-2">
+        <div class="gray-text" style="text-align: center;">导航栏</div>
+        <div id="tree_container" class="z-depth-1" style="overflow: auto;"></div>
+      </div>
+      <div class="col-sm-10">
+        <div class="row" style="width: 105%;height: 100%;">
+          <div id="main_panel" class="col-sm-10" style="height: 100%;width: 100%;float: right;right: -30px;">
+            <div class="row" style="display: inline-block;width: 97%;height: 100%;">
+              <div class="col m3">
+                <!-- 数据基本信息表格 -->
+                <table id="data_general_table" style="display: none;">
+                  <caption style="caption-side: top;text-align: center;">导入数据统计</caption>
+                  <tr>
+                    <td>总数据大小</td>
+                    <td id="total_data_amount"></td>
+                  </tr>
+                  <tr>
+                    <td>测试数据量</td>
+                    <td id="test_data_amount"></td>
+                  </tr>
+                  <tr>
+                    <td>验证数据量</td>
+                    <td id="val_data_amount"></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col m5">
+                <div id="pie_chart_container" style="width: 440px; height: 360px;">
+                </div>
+              </div>
+              <div id="sample_data_div" class="col m3" style="display: none;">
+                <div style="text-align: center;font-weight: bold;">
+                  样例数据
+                </div>
+                <img id="sample_img" src="./inner_scripts/sample.png" style="width: 50px;height: 50px;display: none;margin-left: 60px;margin-top: 40px;">
+                <div id="bar_chart_histgram" style="width: 300px;height: 300px;margin-left: 70px;"></div>
+              </div>
+            </div>
+            <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
+              <img src="./resources/full_screen.png" style="width: 30px;height: 30px;margin-right: 20px;">
             </div>
           </div>
-        </div>
-        <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
-          <img src="./resources/full_screen.png" style="width: 30px;height: 30px;margin-right: 20px;">
-        </div>
-      </div>
-      <div id="config_panel" class="col-sm-2 z-depth-1">
-        <div class="row">
-          <div class="z-depth-1 col-sm-8" style="text-align: center;margin-left: 0px;">配置面板</div>
-          <div id="toggle_config_panel_hide" class="col-sm-4">
-            <img src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;">
+          <div id="config_panel" class="col-sm-2 z-depth-1">
+            <div class="row">
+              <div class="z-depth-1" style="text-align: center;margin-left: 0px;">配置面板</div>
+              <div id="toggle_config_panel_hide" class="col-sm-4">
+                <img src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;">
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div id="toggle_config_panel_show" style="width: 20px;position: absolute;float:right; right: 5px;display: none;">
-        <div class="row">
-          <img id="hide_config_panel_img" src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;">
+          <div id="toggle_config_panel_show" style="width: 20px;position: absolute;float:right; right: 5px;display: none;">
+            <div class="row">
+              <img id="hide_config_panel_img" src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -134,7 +148,7 @@
         <img src="./resources/hide_panel.png" style="width: 30px;height: 30px;">
       </div>
     </div>
-    <div id="log_output_panel" class="row z-depth-2" style="position: fixed;bottom: -10px;width: 98%;height: 160px;display: block;">
+    <!-- <div id="log_output_panel" class="row z-depth-2" style="position: fixed;bottom: -10px;width: 98%;height: 160px;display: block;">
       <div class="col m1  z-depth-2" style="height: 100%;">
         <i class="material-icons">save</i>
         <br/>
@@ -142,7 +156,7 @@
       </div>
       <div class="col m10" style="overflow: auto;height: 300px;">
       </div>
-    </div>
+    </div> -->
 </body>
 <style>
 
@@ -150,14 +164,17 @@
   background-color: #333;
 }
 
-@media (prefers-color-scheme: dark) {
-  body { background:  #333; color: white; }
+body {
+  padding: 25px;
+  background-color: black;
+  color: white;
+  font-size: 25px;
 }
 
-@media (prefers-color-scheme: light) {
-  body { background:  #ddd; color: black; }
+.dark-mode {
+  background-color: rgb(61, 57, 57);
+  color: white;
 }
-
   @font-face {
     font-family: 'Material Icons';
     font-style: normal;
@@ -255,13 +272,19 @@
       $("#toggle_config_panel_hide").on("click",()=>{
         document.getElementById("config_panel").style.display="none";
         document.getElementById("toggle_config_panel_show").style.display = "inline-block";
-        document.getElementById("main_panel").setAttribute("class","col-sm-10");
+        document.getElementById("toggle_config_panel_show").style.float = "right";
+        document.getElementById("toggle_config_panel_show").style.right = "-30px";
+        document.getElementById("main_panel").setAttribute("class","col-sm-12");
+        document.getElementById("main_panel").style.float = "right";
+        document.getElementById("main_panel").style.right = "40px";
       });
 
       $("#hide_config_panel_img").on("click",()=>{
+        // 重新显示
         document.getElementById("config_panel").style.display="inline-block";
         document.getElementById("toggle_config_panel_show").style.display = "none";
-        document.getElementById("main_panel").setAttribute("class","col-sm-8");
+        document.getElementById("main_panel").setAttribute("class","col-sm-10");
+        document.getElementById("main_panel").style.right = "-30px";
       });
 
 
@@ -283,24 +306,28 @@
       });
 
       // 切换主面板全屏
+      // <div id="main_panel" class="col-sm-10" style="height: 100%;width: 100%;float: right;right: -30px;">
       $("#full_screen_toggle").on("click",()=>{
         if(document.getElementById("main_panel").getAttribute("class") === ""){
           document.getElementById("main_panel").style.zIndex = "";
-          document.getElementById("main_panel").style.width = "";
-          document.getElementById("main_panel").style.height = "";
+          document.getElementById("main_panel").style.width = "100%";
+          document.getElementById("main_panel").style.height = "100%";
           document.getElementById("main_panel").style.position = "";
           document.getElementById("main_panel").style.top = "";
           document.getElementById("main_panel").style.left = "";
-          document.getElementById("main_panel").style.background="";
-          document.getElementById("main_panel").setAttribute("class","col-sm-8");
+          document.getElementById("main_panel").style.float = "right";
+          document.getElementById("main_panel").style.right = "-30px";
+          document.getElementById("main_panel").style.background = "";
+          document.getElementById("main_panel").setAttribute("class","col-sm-10");
         }else{
+          // 全屏状态
           document.getElementById("main_panel").style.zIndex = "100";
           document.getElementById("main_panel").style.width = "100%";
           document.getElementById("main_panel").style.height = "100%";
           document.getElementById("main_panel").style.position = "fixed";
           document.getElementById("main_panel").style.top = "0px";
-          document.getElementById("main_panel").style.left = "0px";
-          document.getElementById("main_panel").style.background="#F8F9F9";
+          document.getElementById("main_panel").style.left = "0px"; 
+          document.getElementById("main_panel").style.background = "#424242";
           document.getElementById("main_panel").setAttribute("class","");
         }
       });
@@ -320,6 +347,9 @@
               console.log("Read data info....");
               console.log("data is :"+data);
               data = JSON.parse(data);
+              document.getElementById("sample_data_div").style.display="block";
+              // 显示表格
+              document.getElementById("data_general_table").style.display = "block";
               $("#total_data_amount").text(data.total_data_count);
               $("#test_data_amount").text(data.test_data_count);
               $("#val_data_amount").text(data.norm_data_count);
@@ -331,6 +361,12 @@
                 cls_items.push({"name":""+i, "value":data_classes[i]});
               }
               display_data_pie_chart(cls_names, cls_items);
+              document.getElementById("sample_img").style.display="block";
+              var hist_bin_names = data.hist_bin_names;
+              var hist_bin_vals = data.hist_grams;
+              console.log("hist bin names: "+hist_bin_names);
+              console.log("hist bin vals:"+hist_bin_vals);
+              display_hist_gram_chart(hist_bin_names, hist_bin_vals);
             });
           }
         });
@@ -379,6 +415,30 @@
               ]
           };
           pie_chart_data.setOption(option);
+    }
+
+
+    function display_hist_gram_chart(labels, vals){
+      var hist_gram_bar_chart = echarts.init(document.getElementById("bar_chart_histgram"));
+      option = {
+          xAxis: {
+              type: 'category',
+              data: labels,
+              axisLabel:{
+                rotate: 60
+              }
+              // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          },
+          yAxis: {
+              type: 'value'
+          },
+          series: [{
+              // data: [120, 200, 150, 80, 70, 110, 130],
+              data: vals,
+              type: 'bar'
+          }]
+        };
+        hist_gram_bar_chart.setOption(option);
     }
     // document.addEventListener('DOMContentLoaded', function() {
     //   var elem = document.querySelector('#slide-out');
@@ -455,6 +515,8 @@
     data_img_node.setExpanded(false);
     data_voice_node.setExpanded(false);
 
+    tree_view = new TreeView(root, "#tree_container");
+
     $("#menu_proj_new").on("click",function(){
       ipcRenderer.send("new project");
       ipcRenderer.on("new project save path", (evt,args)=>{
@@ -464,8 +526,6 @@
           console.log("write finished");
         });
       });
-
-        tree_view = new TreeView(root, "#tree_container");
     });
 
     // 打开已有的项目文件

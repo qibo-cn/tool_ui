@@ -6,8 +6,11 @@ const diaolg = require('electron').remote;
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 710,
-    height: 660,
+    width: 730,
+    height: 800,
+    backgroundColor: "#212121",
+    darkTheme: true,
+    frame:false,
     icon:path.join(__dirname, "resources/favicon.ico"),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -20,7 +23,7 @@ function createWindow () {
 
   // and load the index.html of the app.
   mainWindow.loadFile('main_page_v2.html');
-  nativeTheme.themeSource="light";
+  nativeTheme.themeSource="dark"; // page style dark mode
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -38,10 +41,20 @@ function createWindow () {
   //   mainWindow.setSize(800,600);
   // });
 
+  ipcMain.on("main-window-minimize",(evt, args)=>{
+    console.log("minimize main window...");
+    mainWindow.minimize();
+  });
+
+  ipcMain.on("main-window-close",(evt,args)=>{
+    console.log("close main window...");
+    mainWindow.close();
+  });
+
   ipcMain.on("jump_to_convertor_page",(evt,args)=>{
     console.log("Jumped to main page.");
     mainWindow.loadFile("convertor_page_v2.html");
-    mainWindow.setSize(1220,720);
+    mainWindow.setSize(1420,730);
   });
 
   ipcMain.on("new project",(evt,args)=>{

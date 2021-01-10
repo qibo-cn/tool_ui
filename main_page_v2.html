@@ -1,22 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 640px;width: 100%;">
 
 <head>
   <meta charset="UTF-8">
   <title>Darwin IDE</title>
 </head>
 
-<body>
+<body class="dark-mode" style="height: 100%;width: 100%;">
 
-  <div class="row">
+  <div style="-webkit-app-region: drag;-webkit-user-select: none;width: 100%;overflow: hidden;height: 40px;">
+    <div style="display: inline-block;margin-bottom: 20px;overflow: hidden;">
+      <img src="./resources/favicon.ico" style="width: 15px;height: 15px;" alt="">
+    </div>
+    <div style="overflow: hidden;margin-bottom: 20px;-webkit-app-region: no-drag;display: inline-block;margin-left: 20px;font-size: 10px;">
+      <ul style="height: 10px;">
+        <li style="float: left;">File</li>
+        <li style="float: left;margin-left: 10px;">Edit</li>
+        <li style="float: left;margin-left: 10px;">Selection</li>
+        <li style="float: left;margin-left: 10px;">View</li>
+        <li style="float: left;margin-left: 10px;">Go</li>
+        <li style="float: left;margin-left: 10px;">Run</li>
+      </ul>
+    </div>
+    <div style="height: 10px;line-height: 10px;display: inline-block;margin-bottom: 30px;margin-left: 100px;overflow: hidden;font-size: 10px;">
+      Darwin IDE
+    </div>
+    <div style="-webkit-app-region: no-drag;display: inline-block;float: right;">
+        <img src="./resources/min_window.png" style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_minimize" alt="">
+        <img src="./resources/close_window.png" style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_close" alt="">
+    </div>
+</div>
+
+  <!-- <div class="titlebar" style="width: 100%;height:30px;">
+    <img src="./resources/favicon.ico" style="width: 30px;height: 30px;display: inline-block;">
+    <div style="text-align: center;display: inline-block;margin-left: 280px;">Darwin IDE</div>
+    <img id="main_window_minimize" src="./resources/min_window.png" style="width: 30px;height: 30px;display: inline-block;margin-left: 220px;">
+    <img id="main_window_close" src="./resources/close_window.png" style="width: 30px;height: 30px;display: inline-block;margin-left: 10px;">
+  </div> -->
+  <div class="row" style="height: 30%;">
     <div id="convertor_entrance" class="col m5 s5 z-depth-4">
       <div class="card">
         <div class="card-image">
           <img src="./resources/convertor_log.png">
           <span class="card-title teal-text text-darken-4 green accent-1" style="font-size: 16px;">模型转换器</span>
         </div>
-        <div class="card-content">
-          <p>提供从ANN转换到SNN的功能</p>
+        <div class="card-content blue-text text-darken-3">
+          提供从ANN转换到SNN的功能
         </div>
       </div>
     </div>
@@ -27,28 +56,28 @@
           <img src="./resources/train_snn.png">
           <span class="card-title teal-text text-darken-4 green accent-1" style="font-size: 16px;">SNN训练器</span>
         </div>
-        <div class="card-content">
-          <p>提供构建以及训练SNN的功能</p>
+        <div class="card-content blue-text text-darken-3">
+          提供构建以及训练SNN的功能
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" style="height: 30%;">
       <div class="col m1" style="margin-left: 240px;">
-          <img src="./resources/model_pool.svg" style="width: 100px;height: 80px;"/>
+          <img src="./resources/model_pool.svg" style="width: 180px;height: 140px;"/>
       </div>
   </div>
 
-  <div class="row">
+  <div class="row" style="height: 30%;">
     <div class="col m5 s5 z-depth-4">
       <div class="card">
         <div class="card-image">
           <img src="./resources/mapper.png">
           <span class="card-title teal-text text-darken-4 green accent-1" style="font-size: 16px;">SNN映射器</span>
         </div>
-        <div class="card-content">
-          <p>提供SNN模型转换为可运行在达尔文类脑芯片上文件的功能</p>
+        <div class="card-content blue-text text-darken-3">
+          提供SNN模型转换为可运行在达尔文类脑芯片上文件的功能
         </div>
       </div>
     </div>
@@ -59,14 +88,29 @@
           <img src="./resources/darwin_os.png">
           <span class="card-title teal-text text-darken-4 green accent-1" style="font-size: 16px;">类脑操作系统</span>
         </div>
-        <div class="card-content">
-          <p>提供达尔文类脑芯片硬件与应用运行管理功能</p>
+        <div class="card-content blue-text text-darken-3">
+          提供达尔文类脑芯片硬件与应用运行管理功能
         </div>
       </div>
     </div>
   </div>
 </body>
 <style>
+
+.titlebar {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.titlebar-button {
+  -webkit-app-region: no-drag;
+}
+
+.dark-mode {
+  background-color: rgb(61, 57, 57);
+  color: white;
+}
+
   @font-face {
     font-family: 'Material Icons';
     font-style: normal;
@@ -97,6 +141,13 @@
             ipcRenderer.send("jump_to_convertor_page");
         }
     });
+    document.getElementById("main_window_minimize").addEventListener("click",()=>{
+      ipcRenderer.send("main-window-minimize");
+    });
+    document.getElementById("main_window_close").addEventListener("click",()=>{
+      ipcRenderer.send("main-window-close");
+    });
+      
 </script>
 
 </html>
