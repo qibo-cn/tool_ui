@@ -5,7 +5,30 @@
   <meta charset="UTF-8">
   <title>Darwin IDE</title>
 </head>
-<body class="dark-mode" style="height: 100%;width: 100%;">
+<body class="dark-mode" style="height: 100%;width: 100%;overflow: hidden;">
+
+  <div style="-webkit-app-region: drag;-webkit-user-select: none;width: 100%;overflow: hidden;height: 40px;">
+    <div style="display: inline-block;margin-bottom: 25px;overflow: hidden;top: 0px;">
+      <img src="./resources/favicon.ico" style="width: 15px;height: 15px;" alt="">
+    </div>
+    <div style="overflow: hidden;margin-bottom: 20px;-webkit-app-region: no-drag;display: inline-block;margin-left: 20px;font-size: 10px;">
+      <ul style="height: 10px;">
+        <li style="float: left;">File</li>
+        <li style="float: left;margin-left: 10px;">Edit</li>
+        <li style="float: left;margin-left: 10px;">Selection</li>
+        <li style="float: left;margin-left: 10px;">View</li>
+        <li style="float: left;margin-left: 10px;">Go</li>
+        <li style="float: left;margin-left: 10px;">Run</li>
+      </ul>
+    </div>
+    <div style="height: 10px;line-height: 10px;display: inline-block;margin-bottom: 35px;margin-left: calc(50vw - 200px);overflow: hidden;font-size: 10px;">
+      模型转换器
+    </div>
+    <div style="-webkit-app-region: no-drag;display: inline-block;float: right;">
+        <img src="./resources/min_window.png" style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_minimize" alt="">
+        <img src="./resources/close_window.png" style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_close" alt="">
+    </div>
+  </div>
 
     <!-- 顶部标题栏 -->
     <nav id="menu_nav" class="dark-mode" style="height: 80px;">
@@ -15,8 +38,10 @@
         </a>
         <a href="#!" class="brand-logo center">模型转换器</a> -->
         <a id="hide_menu" class="right" style="margin-right: 0;margin-bottom: 0;">
-          <img id="hide_menu_img" src="./resources/hide.png" style="width: 15px;height: 10px; margin-right: 10px;vertical-align: bottom;"/>
-          <img id="show_menu_img" src="./resources/visible.png" style="width: 15px;height: 10px; margin-right: 10px;display: none;"/>
+          <!-- <img id="hide_menu_img" src="./resources/hide.png" style="width: 15px;height: 10px; margin-right: 10px;vertical-align: bottom;"/> -->
+          <div id="hide_menu_img" style="width: 15px;height: 10px; margin-right: 10px;vertical-align: bottom;display: inline-block;"><i class="material-icons" style="width: 15px;height: 10px;">visibility_off</i></div>
+          <!-- <img id="show_menu_img" src="./resources/visible.png" style="width: 15px;height: 10px; margin-right: 10px;display: none;"/> -->
+          <div id="show_menu_img" style="width: 15px;height: 10px; margin-right: 10px;display: none;"><i class="material-icons">visibility</i></div>
         </a>
         <ul>
           <!-- <li>
@@ -25,7 +50,8 @@
             </a>
           </li> -->
           <li id="menu_proj" class="dropdown-trigger" data-target="menu_proj_dropdown" style="margin-left: 10px;">
-              <img id="menu_proj_img" src="./resources/menu_proj.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"></img>
+              <!-- <img id="menu_proj_img" src="./resources/menu_proj.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"></img> -->
+              <div id="menu_proj_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">class</i></div>
               <span style="font-size: 10px;">工程</span>
               <ul id="menu_proj_dropdown" class="dropdown-content">
                 <li id="menu_proj_new">新建工程</li>
@@ -33,7 +59,8 @@
               </ul>
           </li>
           <li id="data_mange" class="dropdown-trigger" data-target="data_dropdown" style="margin-left: 10px;">
-              <img id="menu_data_img" src="./resources/menu_data.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"></img>
+              <!-- <img id="menu_data_img" src="./resources/menu_data.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"></img> -->
+              <div id="menu_data_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">description</i></div>
               <span style="font-size: 10px;">数据</span>
               <ul id="data_dropdown" class="dropdown-content">
                 <li id="data_import">导入数据</li>
@@ -42,11 +69,13 @@
               </ul>
           </li>
           <li style="margin-left: 10px;">
-              <img id="menu_model_img" src="./resources/menu_model.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/>
+              <!-- <img id="menu_model_img" src="./resources/menu_model.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/> -->
+              <div id="menu_model_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">dashboard</i></div>
               <span style="font-size: 10px;">模型</span>
           </li>
           <li style="margin-left: 10px;">
-            <img id="menu_run_img" src="./resources/menu_run.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/>
+            <!-- <img id="menu_run_img" src="./resources/menu_run.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/> -->
+            <div id="menu_run_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">fast_forward</i></div>
             <span style="font-size: 10px;">运行</span>
           </li>
         </ul>
@@ -59,14 +88,14 @@
         <div class="gray-text" style="text-align: center;">导航栏</div>
         <div id="tree_container" class="z-depth-1" style="overflow: auto;"></div>
       </div>
-      <div class="col-sm-10">
+      <div class="col-sm-10" style="height: calc(100vh - 340px);">
         <div class="row" style="width: 105%;height: 100%;">
-          <div id="main_panel" class="col-sm-10" style="height: 100%;width: 100%;float: right;right: -30px;">
+          <div id="main_panel" class="col-sm-10" style="width: 100%;float: right;right: -30px;">
             <div class="row" style="display: inline-block;width: 97%;height: 100%;">
               <div class="col m3">
                 <!-- 数据基本信息表格 -->
                 <table id="data_general_table" style="display: none;">
-                  <caption style="caption-side: top;text-align: center;">导入数据统计</caption>
+                  <caption class="white-text" style="caption-side: top;text-align: center;">导入数据统计</caption>
                   <tr>
                     <td>总数据大小</td>
                     <td id="total_data_amount"></td>
@@ -94,21 +123,49 @@
               </div>
             </div>
             <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
-              <img src="./resources/full_screen.png" style="width: 30px;height: 30px;margin-right: 20px;">
+              <!-- <img src="./resources/full_screen.png" style="width: 30px;height: 30px;margin-right: 20px;"> -->
+              <div style="width: 30px;height: 30px;margin-right: 20px;"><i class="material-icons">zoom_in</i></div>
             </div>
           </div>
           <div id="config_panel" class="col-sm-2 z-depth-1">
             <div class="row">
               <div class="z-depth-1" style="text-align: center;margin-left: 0px;">配置面板</div>
               <div id="toggle_config_panel_hide" class="col-sm-4">
-                <img src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;">
+                <!-- <img src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;"> -->
+                <div style="width: 20px;height: 20px;float: right;"><i class="material-icons">swap_horiz</i></div>
               </div>
             </div>
           </div>
           <div id="toggle_config_panel_show" style="width: 20px;position: absolute;float:right; right: 5px;display: none;">
             <div class="row">
-              <img id="hide_config_panel_img" src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;">
+              <!-- <img id="hide_config_panel_img" src="./resources/toggle_expand.png" style="width: 20px;height: 20px;float: right;"> -->
+              <div id="hide_config_panel_img" style="width: 20px;height: 20px;float: right;"><i class="material-icons">swap_horiz</i></div>
             </div>
+          </div>
+        </div>
+        <div class="row" style="width: 105%;">
+          <!-- 日志输出面板 -->
+          <div class="col-sm-11">
+            <div id="log_output_panel" class="row z-depth-2" style="width: 100%;display: block;margin-left: 5px;">
+              <div class="col-sm-12" style="margin-right: 100px;">
+                <ul style="height: 15px;margin-right: 200px;">
+                  <li style="float: left;"><i class="material-icons">save</i></li>
+                  <li style="float: left; margin-left: 10px;"><i class="material-icons">save</i></li>
+                  <!-- <li id="toggle_output_panel" style="float: left; margin-left: 10px;"><i class="material-icons">save</i></li> -->
+                </ul>
+                <!-- <div class="com-sm-2  z-depth-2" style="height: 100%;">
+                  <i class="material-icons">save</i>
+                  <br/>
+                  <i class="material-icons">delete</i>
+                </div> -->
+                <!-- 内容输出区 -->
+                <div style="overflow: auto;height: 300px;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-1">
+            <i id="toggle_output_panel" class="material-icons" style="float: right;right: 0px;margin-right: 0px;">save</i>
           </div>
         </div>
       </div>
@@ -143,12 +200,12 @@
 
     <!-- </div> -->
     <!--日志输出栏-->
-    <div class="row" id="toggle_output_panel" style="float: right;right: 10px;">
+    <!-- <div class="row" id="toggle_output_panel" style="float: right;right: 10px;">
       <div class="col m1">
         <img src="./resources/hide_panel.png" style="width: 30px;height: 30px;">
       </div>
     </div>
-    <!-- <div id="log_output_panel" class="row z-depth-2" style="position: fixed;bottom: -10px;width: 98%;height: 160px;display: block;">
+    <div id="log_output_panel" class="row z-depth-2" style="position: fixed;bottom: -10px;width: 98%;height: 160px;display: block;margin-left: 210px;">
       <div class="col m1  z-depth-2" style="height: 100%;">
         <i class="material-icons">save</i>
         <br/>
@@ -373,12 +430,22 @@ body {
       });
     });
 
+    document.getElementById("main_window_minimize").addEventListener("click",()=>{
+      ipcRenderer.send("main-window-minimize");
+    });
+    document.getElementById("main_window_close").addEventListener("click",()=>{
+      ipcRenderer.send("main-window-close");
+    });
+
     function display_data_pie_chart(cls_names, cls_items){
       var pie_chart_data = echarts.init(document.getElementById("pie_chart_container"));
         var option = {
               title: {
                   text: '数据总体分布',
-                  left: 'center'
+                  left: 'center',
+                  textStyle:{
+                    color:"#FDFEFE"
+                  }
               },
               tooltip: {
                   trigger: 'item',
@@ -387,12 +454,15 @@ body {
               legend: {
                   orient: 'vertical',
                   left: 'left',
-                  data: cls_names
+                  data: cls_names,
+                  textStyle:{
+                    color:"#FDFEFE"
+                  }
                   // data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
               },
               series: [
                   {
-                      name: '访问来源',
+                      name: '类别占比',
                       type: 'pie',
                       radius: '55%',
                       center: ['50%', '60%'],
