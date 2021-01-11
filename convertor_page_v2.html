@@ -25,8 +25,10 @@
       模型转换器
     </div>
     <div style="-webkit-app-region: no-drag;display: inline-block;float: right;">
-        <img src="./resources/min_window.png" style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_minimize" alt="">
-        <img src="./resources/close_window.png" style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_close" alt="">
+        <!-- <img src="./resources/min_window.png" style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_minimize" alt=""> -->
+        <div style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_minimize"><i class="material-icons">remove</i></div>
+        <!-- <img src="./resources/close_window.png" style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_close" alt=""> -->
+        <div style="width: 30px;height: 25px;display: inline-block;margin-right: 10px;" id="main_window_close"><i class="material-icons">close</i></div>
     </div>
   </div>
 
@@ -54,8 +56,8 @@
               <div id="menu_proj_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">class</i></div>
               <span style="font-size: 10px;">工程</span>
               <ul id="menu_proj_dropdown" class="dropdown-content">
-                <li id="menu_proj_new">新建工程</li>
-                <li id="menu_proj_open">打开工程</li>
+                <li id="menu_proj_new" class="dark-mode">新建工程</li>
+                <li id="menu_proj_open" class="dark-mode">打开工程</li>
               </ul>
           </li>
           <li id="data_mange" class="dropdown-trigger" data-target="data_dropdown" style="margin-left: 10px;">
@@ -63,8 +65,8 @@
               <div id="menu_data_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">description</i></div>
               <span style="font-size: 10px;">数据</span>
               <ul id="data_dropdown" class="dropdown-content">
-                <li id="data_import">导入数据</li>
-                <li id="data_vis">可视化数据</li>
+                <li id="data_import" class="dark-mode">导入数据</li>
+                <li id="data_vis" class="dark-mode">可视化数据</li>
                 <li class="divider" tabindex="-1"></li>
               </ul>
           </li>
@@ -124,7 +126,7 @@
             </div>
             <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
               <!-- <img src="./resources/full_screen.png" style="width: 30px;height: 30px;margin-right: 20px;"> -->
-              <div style="width: 30px;height: 30px;margin-right: 20px;"><i class="material-icons">zoom_in</i></div>
+              <div style="width: 30px;height: 30px;margin-right: 20px;"><i class="material-icons">pages</i></div>
             </div>
           </div>
           <div id="config_panel" class="col-sm-2 z-depth-1">
@@ -143,14 +145,14 @@
             </div>
           </div>
         </div>
-        <div class="row" style="width: 105%;">
+        <div class="row" style="width: 112%;">
           <!-- 日志输出面板 -->
           <div class="col-sm-11">
             <div id="log_output_panel" class="row z-depth-2" style="width: 100%;display: block;margin-left: 5px;">
-              <div class="col-sm-12" style="margin-right: 100px;">
+              <div class="col-sm-11" style="margin-right: 100px;">
                 <ul style="height: 15px;margin-right: 200px;">
-                  <li style="float: left;"><i class="material-icons">save</i></li>
-                  <li style="float: left; margin-left: 10px;"><i class="material-icons">save</i></li>
+                  <li style="float: left;font-size: 10px;">PROBLEMS</li>
+                  <li style="float: left; margin-left: 10px;font-size: 10px;">OUTPUT</li>
                   <!-- <li id="toggle_output_panel" style="float: left; margin-left: 10px;"><i class="material-icons">save</i></li> -->
                 </ul>
                 <!-- <div class="com-sm-2  z-depth-2" style="height: 100%;">
@@ -164,8 +166,8 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-1">
-            <i id="toggle_output_panel" class="material-icons" style="float: right;right: 0px;margin-right: 0px;">save</i>
+          <div>
+            <i id="toggle_output_panel" class="material-icons" style="float: right;right: 0px;margin-right: 0px;margin-top: 30px;">swap_vert</i>
           </div>
         </div>
       </div>
