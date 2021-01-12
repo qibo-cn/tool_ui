@@ -106,7 +106,7 @@
         <a id="tab_title_data_vis_link" href="#data_vis_tab" data-toggle="tab"><span class="new badge" data-badge-caption="">数据可视化</span></a>
       </li>
       <li id="tab_title_model_vis" style="display: none;">
-        <a href="#model_vis_tab" data-toggle="tab"><span class="new badge" data-badge-caption="">模型可视化</span></a>
+        <a id="tab_title_model_vis_link" href="#model_vis_tab" data-toggle="tab"><span class="new badge" data-badge-caption="">模型可视化</span></a>
       </li>
     </ul>
 
@@ -155,7 +155,24 @@
               </div>
               <!--模型可视化tab页-->
               <div id="model_vis_tab" class="tab-pane">
-                xxx模型可视化
+                <div class="col m3">
+                  <!-- 数据基本信息表格 -->
+                  <table id="model_general_table" style="display: none;">
+                    <caption class="white-text" style="caption-side: top;text-align: center;width: 160px;">ANN模型基本信息</caption>
+                    <tr>
+                      <td>总层数</td>
+                      <td id="model_total_layers"></td>
+                    </tr>
+                    <tr>
+                      <td>总参数量</td>
+                      <td id="model_total_param"></td>
+                    </tr>
+                    <tr>
+                      <td>unit数量</td>
+                      <td id="model_total_units"></td>
+                    </tr>
+                  </table>
+                </div>
               </div>
             </div>
             <!--全屏切换-->
@@ -469,6 +486,32 @@ body {
               console.log("hist bin names: "+hist_bin_names);
               console.log("hist bin vals:"+hist_bin_vals);
               display_hist_gram_chart(hist_bin_names, hist_bin_vals);
+            });
+          }
+        });
+      });
+
+      // 模型可视化
+      $("#model_vis").on("click",function(){
+        document.getElementById("tab_title_model_vis").style.display = "block";
+        document.getElementById("tab_title_model_vis_link").click();
+        // 运行py脚本
+        var script_path = path.join(__dirname, "inner_scripts","model_desc.py");
+        var cmd_str = "python "+script_path+" "+model_file_path;
+        console.log("start running script:"+script_path);
+        exec(cmd_str, function(err, stdout, stderr){
+          if(err){
+            console.log("get error when running script "+err);
+          }else{
+            console.log("script running finish.");
+            fs.readFile(path.join(__dirname,"inner_scripts","model_general_info.json"), "utf-8",(evt,data)=>{
+              console.log("Read data is :"+data);
+              data = JSON.parse(data);
+              // 显示表格
+              document.getElementById("model_general_table").style.display = "block";
+              $("#model_total_layers").text(""+data.total_num_layers);
+              $("#model_total_param").text(""+data.total_params);
+              $("#model_total_units").text(""+data.total_units);
             });
           }
         });
