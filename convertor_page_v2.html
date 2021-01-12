@@ -13,13 +13,24 @@
     </div>
     <div style="overflow: hidden;margin-bottom: 20px;-webkit-app-region: no-drag;display: inline-block;margin-left: 20px;font-size: 10px;">
       <ul style="height: 10px;">
-        <li style="float: left;">File</li>
-        <li style="float: left;margin-left: 10px;">Edit</li>
-        <li style="float: left;margin-left: 10px;">Selection</li>
+        <li style="float: left;" id="menu_proj" class="dropdown-trigger" data-target="menu_proj_dropdown">Project</li>
+        <li style="float: left;margin-left: 10px;" id="data_mange" class="dropdown-trigger" data-target="data_dropdown">Data</li>
+        <li style="float: left;margin-left: 10px;">Model</li>
         <li style="float: left;margin-left: 10px;">View</li>
         <li style="float: left;margin-left: 10px;">Go</li>
         <li style="float: left;margin-left: 10px;">Run</li>
       </ul>
+      <!--菜单栏下拉列表-->
+        <ul id="menu_proj_dropdown" class="dropdown-content">
+          <li id="menu_proj_new" class="dark-mode">新建工程</li>
+          <li id="menu_proj_open" class="dark-mode">打开工程</li>
+        </ul>
+        <!--数据菜单-->
+        <ul id="data_dropdown" class="dropdown-content">
+          <li id="data_import" class="dark-mode">导入数据</li>
+          <li id="data_vis" class="dark-mode">可视化数据</li>
+          <li class="divider" tabindex="-1"></li>
+        </ul>
     </div>
     <div style="height: 10px;line-height: 10px;display: inline-block;margin-bottom: 35px;margin-left: calc(50vw - 200px);overflow: hidden;font-size: 10px;">
       模型转换器
@@ -51,29 +62,29 @@
               <i class="material-icons">arrow_back</i>
             </a>
           </li> -->
-          <li id="menu_proj" class="dropdown-trigger" data-target="menu_proj_dropdown" style="margin-left: 10px;">
+          <!-- <li id="menu_proj" class="dropdown-trigger" data-target="menu_proj_dropdown" style="margin-left: 10px;"> -->
               <!-- <img id="menu_proj_img" src="./resources/menu_proj.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"></img> -->
-              <div id="menu_proj_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">class</i></div>
+              <!-- <div id="menu_proj_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">class</i></div>
               <span style="font-size: 10px;">工程</span>
               <ul id="menu_proj_dropdown" class="dropdown-content">
                 <li id="menu_proj_new" class="dark-mode">新建工程</li>
                 <li id="menu_proj_open" class="dark-mode">打开工程</li>
-              </ul>
-          </li>
-          <li id="data_mange" class="dropdown-trigger" data-target="data_dropdown" style="margin-left: 10px;">
+              </ul> -->
+          <!-- </li> -->
+          <!-- <li id="data_mange" class="dropdown-trigger" data-target="data_dropdown" style="margin-left: 10px;"> -->
               <!-- <img id="menu_data_img" src="./resources/menu_data.png" style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"></img> -->
-              <div id="menu_data_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">description</i></div>
+              <!-- <div id="menu_data_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">description</i></div>
               <span style="font-size: 10px;">数据</span>
               <ul id="data_dropdown" class="dropdown-content">
                 <li id="data_import" class="dark-mode">导入数据</li>
                 <li id="data_vis" class="dark-mode">可视化数据</li>
                 <li class="divider" tabindex="-1"></li>
-              </ul>
-          </li>
+              </ul> -->
+          <!-- </li> -->
           <li style="margin-left: 10px;">
               <!-- <img id="menu_model_img" src="./resources/menu_model.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/> -->
-              <div id="menu_model_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">dashboard</i></div>
-              <span style="font-size: 10px;">模型</span>
+              <div id="menu_model_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">autorenew</i></div>
+              <span style="font-size: 10px;">转换</span>
           </li>
           <li style="margin-left: 10px;">
             <!-- <img id="menu_run_img" src="./resources/menu_run.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/> -->
@@ -565,27 +576,31 @@ body {
       // 添加左侧导航栏
     var root = new TreeNode("项目");
     var model_node = new TreeNode("模型");
-    var model_img_node = new TreeNode("图像分类模型");
-    var model_voice_node = new TreeNode("语音识别模型");
+    // var model_img_node = new TreeNode("图像分类模型");
+    // var model_voice_node = new TreeNode("语音识别模型");
     
     var data_node = new TreeNode("数据");
-    var data_img_node = new TreeNode("图像分类数据");
-    var data_voice_node = new TreeNode("语音识别数据");
+    // var data_img_node = new TreeNode("图像分类数据");
+    // var data_voice_node = new TreeNode("语音识别数据");
 
     root.addChild(model_node);
     root.addChild(data_node);
-    model_node.addChild(model_img_node);
-    model_node.addChild(model_voice_node);
-    model_img_node.addChild(new TreeNode("-"));
-    model_voice_node.addChild(new TreeNode("-"));
-    model_img_node.setExpanded(false);
-    model_voice_node.setExpanded(false);
-    data_node.addChild(data_img_node);
-    data_node.addChild(data_voice_node);
-    data_img_node.addChild(new TreeNode("-"));
-    data_voice_node.addChild(new TreeNode("-"));
-    data_img_node.setExpanded(false);
-    data_voice_node.setExpanded(false);
+    model_node.addChild(new TreeNode("-"));
+    model_node.setExpanded(false);
+    data_node.addChild(new TreeNode("-"));
+    data_node.setExpanded(false);
+    // model_node.addChild(model_img_node);
+    // model_node.addChild(model_voice_node);
+    // model_img_node.addChild(new TreeNode("-"));
+    // model_voice_node.addChild(new TreeNode("-"));
+    // model_img_node.setExpanded(false);
+    // model_voice_node.setExpanded(false);
+    // data_node.addChild(data_img_node);
+    // data_node.addChild(data_voice_node);
+    // data_img_node.addChild(new TreeNode("-"));
+    // data_voice_node.addChild(new TreeNode("-"));
+    // data_img_node.setExpanded(false);
+    // data_voice_node.setExpanded(false);
 
     tree_view = new TreeView(root, "#tree_container");
 
@@ -619,9 +634,9 @@ body {
           file_paths = JSON.parse(data).data_paths;
           data_file_paths = file_paths
           console.log("file paths: "+file_paths);
-          data_img_node.removeChildPos(0);
+          data_node.removeChildPos(0);
           for(var i=0;i<file_paths.length;++i){
-            data_img_node.addChild(new TreeNode(file_paths[i]));
+            data_node.addChild(new TreeNode(file_paths[i]));
           }
         });
       });
@@ -636,9 +651,9 @@ body {
         data_file_paths = filePaths;
         console.log("prepare to add "+filePaths.length+" data packs");
         // add data file to tree view
-        data_img_node.removeChildPos(0);
+        data_node.removeChildPos(0);
         for(var i=0;i<filePaths.length;++i){
-          data_img_node.addChild(new TreeNode(filePaths[i]));
+          data_node.addChild(new TreeNode(filePaths[i]));
         }
         fs.writeFile(projFilePath, JSON.stringify({"data_paths":filePaths}), function(err){
         });

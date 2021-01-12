@@ -10,7 +10,7 @@ function createWindow () {
     height: 800,
     backgroundColor: "#212121",
     darkTheme: true,
-    frame:false,
+    frame:true,
     icon:path.join(__dirname, "resources/favicon.ico"),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
