@@ -87,6 +87,16 @@ function createWindow () {
       evt.sender.send("imported data paths", JSON.stringify(result.filePaths));
     });
   });
+
+  ipcMain.on("import model",(evt, args)=>{
+    console.log("import model");
+    dialog.showOpenDialog(mainWindow,{
+      title: "选择模型文件"
+    }).then(function(result){
+      console.log("model path is :"+result.filePaths);
+      evt.sender.send("imported model path", JSON.stringify(result.filePaths));
+    });
+  });
 }
 
 // This method will be called when Electron has finished

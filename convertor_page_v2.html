@@ -24,6 +24,7 @@
         <ul id="menu_proj_dropdown" class="dropdown-content">
           <li id="menu_proj_new" class="dark-mode">新建工程</li>
           <li id="menu_proj_open" class="dark-mode">打开工程</li>
+          <li id="menu_proj_save" class="dark-mode">保存工程</li>
         </ul>
         <!--数据菜单-->
         <ul id="data_dropdown" class="dropdown-content">
@@ -322,6 +323,7 @@ body {
   var projFilePath = undefined;
   var tree_view = undefined;
   var data_file_paths = undefined; // 导入的数据文件路径列表
+  var model_file_path = undefined; // 导入的模型文件路径
 
     document.addEventListener('DOMContentLoaded',function(){
       var menu_proj_dropdown = document.getElementById("menu_proj_dropdown");
@@ -662,7 +664,20 @@ body {
           for(var i=0;i<file_paths.length;++i){
             data_node.addChild(new TreeNode(file_paths[i]));
           }
+          // 加载模型文件
+          modelPath = JSON.parse(data).model_path;
+          model_file_path = modelPath;
+          console.log("model file path :"+model_file_path);
+          model_node.removeChildPos(0);
+          model_node.addChild(new TreeNode(model_file_path));
         });
+      });
+    });
+
+    // 保存工程
+    $("#menu_proj_save").on("click",function(){
+      proj_info = {"data_paths":data_file_paths,"model_path":model_file_path}
+      fs.writeFile(projFilePath, JSON.stringify(proj_info), function(err){
       });
     });
 
@@ -679,10 +694,24 @@ body {
         for(var i=0;i<filePaths.length;++i){
           data_node.addChild(new TreeNode(filePaths[i]));
         }
-        fs.writeFile(projFilePath, JSON.stringify({"data_paths":filePaths}), function(err){
-        });
+        // fs.writeFile(projFilePath, JSON.stringify({"data_paths":filePaths}), function(err){
+        // });
       });
 
+    });
+
+    // 模型导入
+    $("#model_import").on("click",function(){
+      console.log("导入模型");
+      ipcRenderer.send("import model");
+      ipcRenderer.on("imported model path",(evt, args)=>{
+        console.log("imported model path: "+args);
+        modelFilePath = JSON.parse(args);
+        model_file_path = modelFilePath;
+        console.log("prepare to load model: " + modelFilePath);
+        model_node.removeChildPos(0);
+        model_node.addChild(new TreeNode(model_file_path));
+      });
     });
 
     // var root = new TreeNode("root");
