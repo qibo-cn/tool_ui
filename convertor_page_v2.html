@@ -102,10 +102,10 @@
 
     <!--标签页-->
     <ul id="tabs" class="nav nav-tabs" style="margin-left:200px;margin-right: 220px;">
-      <li class="active">
+      <li id="tab_title_data_vis" class="active" style="display: none;">
         <a href="#data_vis_tab" data-toggle="tab"><span class="new badge" data-badge-caption="">数据可视化</span></a>
       </li>
-      <li>
+      <li id="tab_title_model_vis" style="display: none;">
         <a href="#model_vis_tab" data-toggle="tab"><span class="new badge" data-badge-caption="">模型可视化</span></a>
       </li>
     </ul>
@@ -328,15 +328,19 @@ body {
     document.addEventListener('DOMContentLoaded',function(){
       var menu_proj_dropdown = document.getElementById("menu_proj_dropdown");
       var data_dropdown = document.getElementById("data_dropdown");
+      var model_dropdown = document.getElementById("model_dropdown");
 
       var elems = document.querySelectorAll('.dropdown-trigger');
       var instances = M.Dropdown.init(elems, {});
 
-      menu_proj_dropdown.onmouseleave = function(){
-          instances[0].close();
+      menu_proj_dropdown.onmouseout = function(){
+          // instances[0].close();
       }
-      data_dropdown.onmouseleave = function(){
-        instances[1].close();
+      data_dropdown.onmouseout = function(){
+        // instances[1].close();
+      }
+      model_dropdown.onmouseout = function(){
+        // instances[2].close();
       }
       document.getElementById("hide_menu_img").onclick = function(){
         document.getElementById("menu_bar").style.height = "40px";
