@@ -15,7 +15,7 @@
       <ul style="height: 10px;">
         <li style="float: left;" id="menu_proj" class="dropdown-trigger" data-target="menu_proj_dropdown">Project</li>
         <li style="float: left;margin-left: 10px;" id="data_mange" class="dropdown-trigger" data-target="data_dropdown">Data</li>
-        <li style="float: left;margin-left: 10px;">Model</li>
+        <li style="float: left;margin-left: 10px;" id="model_manage" class="dropdown-trigger" data-target="model_dropdown">Model</li>
         <li style="float: left;margin-left: 10px;">View</li>
         <li style="float: left;margin-left: 10px;">Go</li>
         <li style="float: left;margin-left: 10px;">Run</li>
@@ -29,7 +29,11 @@
         <ul id="data_dropdown" class="dropdown-content">
           <li id="data_import" class="dark-mode">导入数据</li>
           <li id="data_vis" class="dark-mode">可视化数据</li>
-          <li class="divider" tabindex="-1"></li>
+        </ul>
+        <!--模型菜单-->
+        <ul id="model_dropdown" class="dropdown-content">
+          <li id="model_import" class="dark-mode">导入模型</li>
+          <li id="model_vis" class="dark-mode">可视化模型</li>
         </ul>
     </div>
     <div style="height: 10px;line-height: 10px;display: inline-block;margin-bottom: 35px;margin-left: calc(50vw - 200px);overflow: hidden;font-size: 10px;">
