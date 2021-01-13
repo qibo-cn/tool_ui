@@ -132,8 +132,8 @@
       <div class="col-sm-10" style="height: calc(100vh - 340px);">
         <div class="row" style="width: 105%;height: 100%;">
           <!--左侧主面板-->
-          <div class="col-sm-10 row" style="width: 100%;float: right;right: -30px;">
-            <div id="main_panel" class="tab-content" style="display: inline-block;width: 98%;height: 100%;">
+          <div class="col-sm-10 row" style="width: 100%;height: 100%;float: right;right: -10px;">
+            <div id="main_panel" class="tab-content" style="display: inline-block;width: 98%;height: 100%;overflow: auto;">
               <!--数据可视化tab页-->
               <div id="data_vis_tab" class="tab-pane">
                 <div class="col m3">
@@ -169,7 +169,7 @@
               <!--模型可视化tab页-->
               <div id="model_vis_tab" class="tab-pane">
                 <div class="col m3">
-                  <!-- 数据基本信息表格 -->
+                  <!-- 模型总体信息表格 -->
                   <table id="model_general_table" style="display: none;">
                     <caption class="white-text" style="caption-side: top;text-align: center;width: 160px;">ANN模型基本信息</caption>
                     <tr>
@@ -185,6 +185,20 @@
                       <td id="model_total_units"></td>
                     </tr>
                   </table>
+                </div>
+                <div class="col m4">
+                    <!--模型详细信息表格-->
+                    <table id="model_detail_table" style="display: none;">
+                      <caption class="white-text" style="caption-side: top;text-align: center;width: 160px;">ANN模型各层信息</caption>
+                      <thead>
+                        <tr>
+                          <td>名称</td>
+                          <td>输出形状</td>
+                          <td>参数量</td>
+                        </tr>
+                      </thead>
+                      <!--通过加载模型的信息动态创建-->
+                    </table>
                 </div>
               </div>
               <!--全屏切换-->
@@ -535,11 +549,43 @@ body {
             fs.readFile(path.join(__dirname,"inner_scripts","model_general_info.json"), "utf-8",(evt,data)=>{
               console.log("Read data is :"+data);
               data = JSON.parse(data);
-              // 显示表格
+              // 显示总体信息表格
               document.getElementById("model_general_table").style.display = "block";
               $("#model_total_layers").text(""+data.total_num_layers);
               $("#model_total_param").text(""+data.total_params);
               $("#model_total_units").text(""+data.total_units);
+              // // 模型详细信息加载显示
+              // document.getElementById("model_detail_table").style.display = "block";
+              // var table = document.getElementById("model_detail_table");
+              // var line = document.createElement("tr");
+              // var col1 = document.createElement("td");
+              // col1.innerText = "hello";
+              // var col2 = document.createElement("td");
+              // col2.innerText = "world";
+              // line.appendChild(col1);
+              // line.appendChild(col2);
+              // table.appendChild(line);
+            });
+            fs.readFile(path.join(__dirname, "inner_scripts","model_layers_info.json"),"utf-8",(evt,data)=>{
+              console.log("model detail info: "+data);
+              data = JSON.parse(data);
+              // 加载模型详细信息
+              document.getElementById("model_detail_table").style.display = "block";
+              var table = document.getElementById("model_detail_table");
+              for(var i=0;i<data.length;++i){
+                var line = document.createElement("tr");
+                var col_name = document.createElement("td");
+                col_name.innerText = data[i].name;
+                var col_shape = document.createElement("td");
+                col_shape.innerText = data[i].shape;
+                var col_params = document.createElement("td");
+                col_params.innerText = data[i].params;
+
+                line.appendChild(col_name);
+                line.appendChild(col_shape);
+                line.appendChild(col_params);
+                table.appendChild(line);
+              }
             });
           }
           document.getElementById("loader_tip").style.display = "none"; // 关闭加载提示
