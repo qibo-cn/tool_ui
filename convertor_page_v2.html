@@ -117,7 +117,7 @@
         <div id="tree_container" class="z-depth-1" style="overflow: auto;"></div>
       </div>
 
-      <div id="loader_tip" class="preloader-wrapper big active" style="position: absolute;margin-left: 600px;margin-top: 100px;">
+      <div id="loader_tip" class="preloader-wrapper big active" style="position: absolute;margin-left: 600px;margin-top: 100px;display: none;">
         <div class="spinner-layer spinner-green-only">
           <div class="circle-clipper left">
             <div class="circle"></div>
@@ -466,6 +466,7 @@ body {
       $("#data_vis").on("click",function(){
         document.getElementById("tab_title_data_vis").style.display = "block";
         document.getElementById("tab_title_data_vis_link").click();
+        document.getElementById("loader_tip").style.display = "block"; // 加载提示
         // 运行py脚本
         console.log("curr path is :"+__dirname);
         var script_path = path.join(__dirname, "inner_scripts","data_analyze.py");
@@ -501,6 +502,7 @@ body {
               display_hist_gram_chart(hist_bin_names, hist_bin_vals);
             });
           }
+          document.getElementById("loader_tip").style.display = "none"; // 关闭加载提示
         });
       });
 
@@ -508,6 +510,7 @@ body {
       $("#model_vis").on("click",function(){
         document.getElementById("tab_title_model_vis").style.display = "block";
         document.getElementById("tab_title_model_vis_link").click();
+        document.getElementById("loader_tip").style.display = "block"; // 加载提示
         // 运行py脚本
         var script_path = path.join(__dirname, "inner_scripts","model_desc.py");
         var cmd_str = "python "+script_path+" "+model_file_path;
@@ -527,6 +530,7 @@ body {
               $("#model_total_units").text(""+data.total_units);
             });
           }
+          document.getElementById("loader_tip").style.display = "none"; // 关闭加载提示
         });
       });
     });
