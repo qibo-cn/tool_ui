@@ -103,10 +103,10 @@
     <!--标签页-->
     <ul id="tabs" class="nav nav-tabs" style="margin-left:200px;margin-right: 220px;">
       <li id="tab_title_data_vis" class="active" style="display: none;">
-        <a id="tab_title_data_vis_link" href="#data_vis_tab" data-toggle="tab"><span class="new badge" data-badge-caption="">数据可视化</span></a>
+        <a id="tab_title_data_vis_link" href="#data_vis_tab" data-toggle="tab"><span class="new badge grey darken-2" data-badge-caption="">数据可视化<i id="close_data_vis_tab" class="material-icons tiny">close</i></span></a>
       </li>
       <li id="tab_title_model_vis" style="display: none;">
-        <a id="tab_title_model_vis_link" href="#model_vis_tab" data-toggle="tab"><span class="new badge" data-badge-caption="">模型可视化</span></a>
+        <a id="tab_title_model_vis_link" href="#model_vis_tab" data-toggle="tab"><span class="new badge grey darken-2" data-badge-caption="">模型可视化<i id="close_model_vis_tab" class="material-icons tiny">close</i></span></a>
       </li>
     </ul>
 
@@ -440,15 +440,12 @@ body {
       $("#full_screen_toggle").on("click",()=>{
         if(document.getElementById("main_panel").getAttribute("class") === ""){
           document.getElementById("main_panel").style.zIndex = "";
-          document.getElementById("main_panel").style.width = "100%";
+          document.getElementById("main_panel").style.width = "98%";
           document.getElementById("main_panel").style.height = "100%";
           document.getElementById("main_panel").style.position = "";
           document.getElementById("main_panel").style.top = "";
           document.getElementById("main_panel").style.left = "";
-          document.getElementById("main_panel").style.float = "right";
-          document.getElementById("main_panel").style.right = "-30px";
           document.getElementById("main_panel").style.background = "";
-          document.getElementById("main_panel").setAttribute("class","col-sm-10");
         }else{
           // 全屏状态
           document.getElementById("main_panel").style.zIndex = "100";
@@ -467,6 +464,8 @@ body {
         document.getElementById("tab_title_data_vis").style.display = "block";
         document.getElementById("tab_title_data_vis_link").click();
         document.getElementById("loader_tip").style.display = "block"; // 加载提示
+        $("#model_vis_tab").hide();
+        $("#data_vis_tab").show();
         // 运行py脚本
         console.log("curr path is :"+__dirname);
         var script_path = path.join(__dirname, "inner_scripts","data_analyze.py");
@@ -506,11 +505,19 @@ body {
         });
       });
 
+      // 数据可视化tab页关闭
+      $("#close_data_vis_tab").on("click",function(){
+        $("#data_vis_tab").hide();
+        document.getElementById("tab_title_data_vis").style.display = "none";
+      });
+
       // 模型可视化
       $("#model_vis").on("click",function(){
         document.getElementById("tab_title_model_vis").style.display = "block";
         document.getElementById("tab_title_model_vis_link").click();
         document.getElementById("loader_tip").style.display = "block"; // 加载提示
+        $("#data_vis_tab").hide();
+        $("#model_vis_tab").show();
         // 运行py脚本
         var script_path = path.join(__dirname, "inner_scripts","model_desc.py");
         var cmd_str = "python "+script_path+" "+model_file_path;
@@ -533,6 +540,13 @@ body {
           document.getElementById("loader_tip").style.display = "none"; // 关闭加载提示
         });
       });
+
+      // 模型可视化tab页关闭
+      $("#close_model_vis_tab").on("click",function(){
+        $("#model_vis_tab").hide();
+        document.getElementById("tab_title_model_vis").style.display = "none";
+      });
+
     });
 
     document.getElementById("main_window_minimize").addEventListener("click",()=>{
