@@ -116,11 +116,24 @@
         <div class="gray-text" style="text-align: center;">导航栏</div>
         <div id="tree_container" class="z-depth-1" style="overflow: auto;"></div>
       </div>
+
+      <div id="loader_tip" class="preloader-wrapper big active" style="position: absolute;margin-left: 600px;margin-top: 100px;">
+        <div class="spinner-layer spinner-green-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="col-sm-10" style="height: calc(100vh - 340px);">
         <div class="row" style="width: 105%;height: 100%;">
           <!--左侧主面板-->
           <div class="col-sm-10 row" style="width: 100%;float: right;right: -30px;">
-            <div id="main_panel" class="tab-content" style="display: inline-block;width: 90%;height: 100%;">
+            <div id="main_panel" class="tab-content" style="display: inline-block;width: 98%;height: 100%;">
               <!--数据可视化tab页-->
               <div id="data_vis_tab" class="tab-pane">
                 <div class="col m3">
@@ -174,11 +187,11 @@
                   </table>
                 </div>
               </div>
-            </div>
-            <!--全屏切换-->
-            <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
-              <!-- <img src="./resources/full_screen.png" style="width: 30px;height: 30px;margin-right: 20px;"> -->
-              <div style="width: 30px;height: 30px;margin-right: 20px;"><i class="material-icons">pages</i></div>
+              <!--全屏切换-->
+              <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
+                <!-- <img src="./resources/full_screen.png" style="width: 30px;height: 30px;margin-right: 20px;"> -->
+                <div style="width: 30px;height: 30px;margin-right: 20px;"><i class="material-icons">pages</i></div>
+              </div>
             </div>
           </div>
           <!--右侧配置面板-->
