@@ -510,6 +510,11 @@ body {
         $("#data_vis_tab").hide();
         document.getElementById("tab_title_data_vis").style.display = "none";
       });
+      // 点击数据可视化tab页标签，显示页面
+      $("#tab_title_data_vis_link").on("click",function(){
+        $("#model_vis_tab").hide();
+        $("#data_vis_tab").show();
+      });
 
       // 模型可视化
       $("#model_vis").on("click",function(){
@@ -545,6 +550,11 @@ body {
       $("#close_model_vis_tab").on("click",function(){
         $("#model_vis_tab").hide();
         document.getElementById("tab_title_model_vis").style.display = "none";
+      });
+      // 点击模型可视化标签，显示页面
+      $("#tab_title_model_vis_link").on("click",function(){
+        $("#data_vis_tab").hide();
+        $("#model_vis_tab").show();
       });
 
     });
