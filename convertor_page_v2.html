@@ -200,7 +200,13 @@
                 </div>
                 <!--模型各层的可视化-->
                 <div id="model_layers_vis" class="col m4">
+                  <div id="model_layers_vis_tab_caption" style="text-align: center;margin-top: 10px;display: none;">卷积与激活层输出可视化</div>
                   <!--动态创建-->
+                  <div id="layers_vis_div" class="row" style="display: none;width: 320px;margin-top: 24px;">
+                    <div class="col m2" style="width: 80px;font-size: small;">layer 名称</div>
+                    <div class="col m2" style="width: 80px;font-size: small;">layer 编号</div>
+                    <div class="col m7" style="width: 90px;font-size: small;">输出可视化</div>
+                  </div>
                 </div>
               </div>
               <!--全屏切换-->
@@ -527,7 +533,6 @@ body {
         setTimeout(()=>{
             document.getElementById("tab_title_data_vis").style.display = "none";
             if(document.getElementById("tab_title_model_vis").style.display != "none"){
-              console.log("点击关闭数据可视化，。。。");
               $("#model_vis_tab").show();
             }
             $("#data_vis_tab").hide();
@@ -597,6 +602,52 @@ body {
               }
             });
             // 神经网络各层的可视化
+            fs.readFile(path.join(__dirname, "inner_scripts", "layer_vis_info.json"), "utf-8", (evt, data)=>{
+              console.log("model layers visualization...");
+              console.log("loaded layer vis info: "+data);
+              document.getElementById("layers_vis_div").style.display="block";
+              document.getElementById("model_layers_vis_tab_caption").style.display="block";
+              data = JSON.parse(data);
+              // 加载后台脚本生成的各layer的图片
+              for(var i=0;i<data.length;++i){
+                layer_name = data[i].layer_name;
+                layer_idx = data[i].layer_index;
+                layer_vis_img_paths = data[i].layer_vis_img_paths;
+                
+                var img_div = document.createElement("div");
+                img_div.setAttribute("class","row");
+                img_div.style.width = "320px";
+
+                var layer_name_div = document.createElement("div");
+                layer_name_div.setAttribute("class", "col m2");
+                layer_name_div.style.fontSize = "small";
+                layer_name_div.style.width = "80px";
+                layer_name_div.innerText = layer_name;
+                img_div.appendChild(layer_name_div);
+
+                var layer_index_div = document.createElement("div");
+                layer_index_div.setAttribute("class", "col m2");
+                layer_index_div.style.fontSize = "small";
+                layer_index_div.style.width = "80px";
+                layer_index_div.innerText = layer_idx;
+                img_div.append(layer_index_div);
+
+                var layer_vis_div = document.createElement("div");
+                layer_vis_div.setAttribute("class", "col m7");
+                layer_vis_div.style.fontSize = "small";
+                layer_vis_div.style.width = "90px";
+
+                for(var j=0;j<layer_vis_img_paths.length;++j){
+                  var layer_img_tag = document.createElement("img");
+                  layer_img_tag.src = layer_vis_img_paths[j];
+                  layer_img_tag.style.width = "32px";
+                  layer_img_tag.style.height = "32px";
+                  layer_vis_div.appendChild(layer_img_tag);
+                  img_div.append(layer_img_tag);
+                }
+                document.getElementById("model_layers_vis").appendChild(img_div);
+              }
+            });
           }
           document.getElementById("loader_tip").style.display = "none"; // 关闭加载提示
         });
@@ -607,7 +658,6 @@ body {
         setTimeout(()=>{
             document.getElementById("tab_title_model_vis").style.display = "none";
             if(document.getElementById("tab_title_data_vis").style.display != "none"){
-                console.log("点击模型可视化tab关闭，。。。");
                 $("#data_vis_tab").show();
             }
             $("#model_vis_tab").hide();
