@@ -1,3 +1,4 @@
 node_modules
 out
 debug.log
+inner_scripts/layer_vis_imgs/*.png

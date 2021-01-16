@@ -200,6 +200,10 @@
                       <!--通过加载模型的信息动态创建-->
                     </table>
                 </div>
+                <!--模型各层的可视化-->
+                <div id="model_layers_vis" class="col m4">
+                  <!--动态创建-->
+                </div>
               </div>
               <!--全屏切换-->
               <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
@@ -369,7 +373,7 @@ body {
   var data_file_paths = undefined; // 导入的数据文件路径列表
   var model_file_path = undefined; // 导入的模型文件路径
 
-    document.addEventListener('DOMContentLoaded',function(){
+    $(document).ready(function(){
       var menu_proj_dropdown = document.getElementById("menu_proj_dropdown");
       var data_dropdown = document.getElementById("data_dropdown");
       var model_dropdown = document.getElementById("model_dropdown");
@@ -521,8 +525,14 @@ body {
 
       // 数据可视化tab页关闭
       $("#close_data_vis_tab").on("click",function(){
-        $("#data_vis_tab").hide();
-        document.getElementById("tab_title_data_vis").style.display = "none";
+        setTimeout(()=>{
+            document.getElementById("tab_title_data_vis").style.display = "none";
+            if(document.getElementById("tab_title_model_vis").style.display != "none"){
+              console.log("点击关闭数据可视化，。。。");
+              $("#model_vis_tab").show();
+            }
+            $("#data_vis_tab").hide();
+        },300);
       });
       // 点击数据可视化tab页标签，显示页面
       $("#tab_title_data_vis_link").on("click",function(){
@@ -539,7 +549,7 @@ body {
         $("#model_vis_tab").show();
         // 运行py脚本
         var script_path = path.join(__dirname, "inner_scripts","model_desc.py");
-        var cmd_str = "python "+script_path+" "+model_file_path;
+        var cmd_str = "python "+script_path+" "+data_file_paths[0]+" "+data_file_paths[1]+" "+data_file_paths[2]+" "+model_file_path;
         console.log("start running script:"+script_path);
         exec(cmd_str, function(err, stdout, stderr){
           if(err){
@@ -594,8 +604,14 @@ body {
 
       // 模型可视化tab页关闭
       $("#close_model_vis_tab").on("click",function(){
-        $("#model_vis_tab").hide();
-        document.getElementById("tab_title_model_vis").style.display = "none";
+        setTimeout(()=>{
+            document.getElementById("tab_title_model_vis").style.display = "none";
+            if(document.getElementById("tab_title_data_vis").style.display != "none"){
+                console.log("点击模型可视化tab关闭，。。。");
+                $("#data_vis_tab").show();
+            }
+            $("#model_vis_tab").hide();
+        }, 300);
       });
       // 点击模型可视化标签，显示页面
       $("#tab_title_model_vis_link").on("click",function(){
