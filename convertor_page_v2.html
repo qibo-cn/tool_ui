@@ -130,7 +130,7 @@
       <div class="col-sm-10" style="height: calc(100vh - 340px);">
         <div class="row" style="width: 105%;height: 100%;">
           <!--左侧主面板-->
-          <div class="col-sm-10 row" style="width: 100%;height: 100%;float: right;right: -10px;">
+          <div id="main_panel_parent_div" class="col-sm-10 row" style="width: 100%;height: 100%;float: right;right: -10px;">
             <div id="main_panel" class="tab-content" style="display: inline-block;width: 98%;height: 100%;overflow: auto;">
               <!--数据可视化tab页-->
               <div id="data_vis_tab" class="tab-pane">
@@ -353,7 +353,7 @@ body {
 </style>
 <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.css">
 <link rel="stylesheet" href="./resources/js/treejs-master/treejs.css">
-<link rel="stylesheet" href="./node_modules/monaco-editor/min/vs/editor/editor.main.css">
+<!-- <link rel="stylesheet" href="./node_modules/monaco-editor/min/vs/editor/editor.main.css"> -->
 <link rel="stylesheet" href="./node_modules/xterm/css/xterm.css">
 <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
 <!-- You can also require other files to run in this process -->
@@ -420,23 +420,22 @@ body {
         document.getElementById("hide_menu_img").style.display = "inline-block";
       }
 
+      // <div id="config_panel" class="col-sm-2 z-depth-1">
+      // <div id="main_panel_parent_div" class="col-sm-10 row" style="width: 100%;height: 100%;float: right;right: -10px;">
       // 隐藏配置面板
       $("#toggle_config_panel_hide").on("click",()=>{
         document.getElementById("config_panel").style.display="none";
         document.getElementById("toggle_config_panel_show").style.display = "inline-block";
         document.getElementById("toggle_config_panel_show").style.float = "right";
         document.getElementById("toggle_config_panel_show").style.right = "-30px";
-        document.getElementById("main_panel").setAttribute("class","col-sm-12");
-        document.getElementById("main_panel").style.float = "right";
-        document.getElementById("main_panel").style.right = "40px";
+        document.getElementById("main_panel_parent_div").setAttribute("class","col-sm-12 row");
       });
 
       $("#hide_config_panel_img").on("click",()=>{
         // 重新显示
         document.getElementById("config_panel").style.display="inline-block";
         document.getElementById("toggle_config_panel_show").style.display = "none";
-        document.getElementById("main_panel").setAttribute("class","col-sm-10");
-        document.getElementById("main_panel").style.right = "-30px";
+        document.getElementById("main_panel_parent_div").setAttribute("class","col-sm-10 row");
       });
 
 
