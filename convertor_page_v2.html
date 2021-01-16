@@ -13,28 +13,26 @@
     </div>
     <div style="overflow: hidden;margin-bottom: 20px;-webkit-app-region: no-drag;display: inline-block;margin-left: 20px;font-size: 10px;">
       <ul style="height: 10px;">
-        <li style="float: left;" id="menu_proj" class="dropdown-trigger" data-target="menu_proj_dropdown">Project</li>
-        <li style="float: left;margin-left: 10px;" id="data_mange" class="dropdown-trigger" data-target="data_dropdown">Data</li>
-        <li style="float: left;margin-left: 10px;" id="model_manage" class="dropdown-trigger" data-target="model_dropdown">Model</li>
-        <li style="float: left;margin-left: 10px;">View</li>
-        <li style="float: left;margin-left: 10px;">Go</li>
-        <li style="float: left;margin-left: 10px;">Run</li>
+        <li style="float: left;" id="menu_proj" class="dropdown-trigger" data-target="menu_proj_dropdown">项目</li>
+        <li style="float: left;margin-left: 10px;" id="data_mange" class="dropdown-trigger" data-target="data_dropdown">数据</li>
+        <li style="float: left;margin-left: 10px;" id="model_manage" class="dropdown-trigger" data-target="model_dropdown">模型</li>
+        <li style="float: left;margin-left: 10px;">模拟运行</li>
       </ul>
       <!--菜单栏下拉列表-->
         <ul id="menu_proj_dropdown" class="dropdown-content">
-          <li id="menu_proj_new" class="dark-mode">新建工程</li>
-          <li id="menu_proj_open" class="dark-mode">打开工程</li>
-          <li id="menu_proj_save" class="dark-mode">保存工程</li>
+          <li id="menu_proj_new" class="dark-mode" style="color: white;font-size:small;">新建工程</li>
+          <li id="menu_proj_open" class="dark-mode" style="color: white;font-size:small;">打开工程</li>
+          <li id="menu_proj_save" class="dark-mode" style="color: white;font-size:small;">保存工程</li>
         </ul>
         <!--数据菜单-->
         <ul id="data_dropdown" class="dropdown-content">
-          <li id="data_import" class="dark-mode">导入数据</li>
-          <li id="data_vis" class="dark-mode">可视化数据</li>
+          <li id="data_import" class="dark-mode" style="color: white;font-size:small;">导入数据</li>
+          <li id="data_vis" class="dark-mode" style="color: white;font-size:small;">可视化数据</li>
         </ul>
         <!--模型菜单-->
         <ul id="model_dropdown" class="dropdown-content">
-          <li id="model_import" class="dark-mode">导入模型</li>
-          <li id="model_vis" class="dark-mode">可视化模型</li>
+          <li id="model_import" class="dark-mode" style="color: white;font-size:small;">导入模型</li>
+          <li id="model_vis" class="dark-mode" style="color: white;font-size:small;">可视化模型</li>
         </ul>
     </div>
     <div style="height: 10px;line-height: 10px;display: inline-block;margin-bottom: 35px;margin-left: calc(50vw - 200px);overflow: hidden;font-size: 10px;">
@@ -49,7 +47,7 @@
   </div>
 
     <!-- 顶部标题栏 -->
-    <nav id="menu_nav" class="dark-mode" style="height: 80px;">
+    <nav id="menu_nav" class="dark-mode" style="height: 80px;margin-top: -20px;">
       <div id="menu_bar" class="nav-wrapper gray-text text-darken-4" style="height: 80px;">
         <!-- <a href="#!" class="right" style="margin-right: 0;">
           <img src="./resources/convertor_log.png" style="width: 105px;height: 100%;margin-left: 0;"></img>
@@ -61,7 +59,7 @@
           <!-- <img id="show_menu_img" src="./resources/visible.png" style="width: 15px;height: 10px; margin-right: 10px;display: none;"/> -->
           <div id="show_menu_img" style="width: 15px;height: 10px; margin-right: 10px;display: none;"><i class="material-icons">visibility</i></div>
         </a>
-        <ul>
+        <ul style="width: 100%;height: 100%;">
           <!-- <li>
             <a id="backHome" href="#">
               <i class="material-icons">arrow_back</i>
@@ -86,15 +84,15 @@
                 <li class="divider" tabindex="-1"></li>
               </ul> -->
           <!-- </li> -->
-          <li style="margin-left: 10px;">
+          <li style="margin-left: 10px;margin-top: -10px;">
               <!-- <img id="menu_model_img" src="./resources/menu_model.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/> -->
               <div id="menu_model_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">autorenew</i></div>
-              <span style="font-size: 10px;">转换</span>
+              <span style="font-size: 10px;margin-left: 10px;">转换</span>
           </li>
-          <li style="margin-left: 10px;">
+          <li style="margin-left: 10px; margin-top: -10px;">
             <!-- <img id="menu_run_img" src="./resources/menu_run.png"style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"/> -->
             <div id="menu_run_img"  style="height: 30px;display: block;margin-top: 10px;margin-left: 10px;"><i class="material-icons">fast_forward</i></div>
-            <span style="font-size: 10px;">运行</span>
+            <span style="font-size: 10px;margin-left: 8px;">模拟运行</span>
           </li>
         </ul>
       </div>
@@ -103,10 +101,10 @@
     <!--标签页-->
     <ul id="tabs" class="nav nav-tabs" style="margin-left:200px;margin-right: 220px;">
       <li id="tab_title_data_vis" class="active" style="display: none;">
-        <a id="tab_title_data_vis_link" href="#data_vis_tab" data-toggle="tab"><span class="new badge grey darken-2" data-badge-caption="">数据可视化<i id="close_data_vis_tab" class="material-icons tiny">close</i></span></a>
+        <a id="tab_title_data_vis_link" href="#data_vis_tab" data-toggle="tab"><span class="new badge grey darken-2" data-badge-caption="">数据集信息<i id="close_data_vis_tab" class="material-icons tiny">close</i></span></a>
       </li>
       <li id="tab_title_model_vis" style="display: none;">
-        <a id="tab_title_model_vis_link" href="#model_vis_tab" data-toggle="tab"><span class="new badge grey darken-2" data-badge-caption="">模型可视化<i id="close_model_vis_tab" class="material-icons tiny">close</i></span></a>
+        <a id="tab_title_model_vis_link" href="#model_vis_tab" data-toggle="tab"><span class="new badge grey darken-2" data-badge-caption="">模型信息<i id="close_model_vis_tab" class="material-icons tiny">close</i></span></a>
       </li>
     </ul>
 
