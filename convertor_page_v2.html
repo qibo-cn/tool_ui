@@ -133,7 +133,7 @@
           <div id="main_panel_parent_div" class="col-sm-10 row" style="width: 100%;height: 100%;float: right;right: -10px;">
             <div id="main_panel" class="tab-content" style="display: inline-block;width: 98%;height: 100%;overflow: auto;">
               <!--数据可视化tab页-->
-              <div id="data_vis_tab" class="tab-pane">
+              <div id="data_vis_tab" class="tab-pane" style="width: 100%;">
                 <div class="col m3">
                   <!-- 数据基本信息表格 -->
                   <table id="data_general_table" style="display: none;">
@@ -165,54 +165,58 @@
                 </div>
               </div>
               <!--模型可视化tab页-->
-              <div id="model_vis_tab" class="tab-pane">
-                <div class="col m3">
-                  <!-- 模型总体信息表格 -->
-                  <table id="model_general_table" style="display: none;">
-                    <caption class="white-text" style="caption-side: top;text-align: center;width: 160px;">ANN模型基本信息</caption>
-                    <tr>
-                      <td>总层数</td>
-                      <td id="model_total_layers"></td>
-                    </tr>
-                    <tr>
-                      <td>总参数量</td>
-                      <td id="model_total_param"></td>
-                    </tr>
-                    <tr>
-                      <td>unit数量</td>
-                      <td id="model_total_units"></td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="col m4">
-                    <!--模型详细信息表格-->
-                    <table id="model_detail_table" style="display: none;">
-                      <caption class="white-text" style="caption-side: top;text-align: center;width: 160px;">ANN模型各层信息</caption>
-                      <thead>
-                        <tr>
-                          <td>名称</td>
-                          <td>输出形状</td>
-                          <td>参数量</td>
-                        </tr>
-                      </thead>
-                      <!--通过加载模型的信息动态创建-->
+              <div id="model_vis_tab" class="tab-pane" style="display: inline-block;width: 96%;">
+                <div class="row">
+                  <div class="col m3">
+                    <!-- 模型总体信息表格 -->
+                    <table id="model_general_table" style="display: none;">
+                      <caption class="white-text" style="caption-side: top;text-align: center;width: 160px;">ANN模型基本信息</caption>
+                      <tr>
+                        <td>总层数</td>
+                        <td id="model_total_layers"></td>
+                      </tr>
+                      <tr>
+                        <td>总参数量</td>
+                        <td id="model_total_param"></td>
+                      </tr>
+                      <tr>
+                        <td>unit数量</td>
+                        <td id="model_total_units"></td>
+                      </tr>
                     </table>
-                </div>
-                <!--模型各层的可视化-->
-                <div id="model_layers_vis" class="col m4">
-                  <div id="model_layers_vis_tab_caption" style="text-align: center;margin-top: 10px;display: none;">卷积与激活层输出可视化</div>
-                  <!--动态创建-->
-                  <div id="layers_vis_div" class="row" style="display: none;width: 320px;margin-top: 24px;">
-                    <div class="col m2" style="width: 80px;font-size: small;">layer 名称</div>
-                    <div class="col m2" style="width: 80px;font-size: small;">layer 编号</div>
-                    <div class="col m7" style="width: 90px;font-size: small;">输出可视化</div>
+                  </div>
+                  <div class="col m3">
+                      <!--模型详细信息表格-->
+                      <table id="model_detail_table" style="display: none;">
+                        <caption class="white-text" style="caption-side: top;text-align: center;width: 160px;">ANN模型各层信息</caption>
+                        <thead>
+                          <tr>
+                            <td>名称</td>
+                            <td>输出形状</td>
+                            <td>参数量</td>
+                          </tr>
+                        </thead>
+                        <!--通过加载模型的信息动态创建-->
+                      </table>
+                  </div>
+                  <!--模型各层的可视化-->
+                  <div id="model_layers_vis" class="col m3">
+                    <div id="model_layers_vis_tab_caption" style="text-align: center;margin-top: 10px;display: none;">卷积与激活层输出可视化</div>
+                    <!--动态创建-->
+                    <div id="layers_vis_div" class="row" style="display: none;width: 320px;margin-top: 24px;">
+                      <div class="col m2" style="width: 80px;font-size: small;">layer 名称</div>
+                      <div class="col m2" style="width: 80px;font-size: small;">layer 编号</div>
+                      <div class="col m7" style="width: 90px;font-size: small;">输出可视化</div>
+                    </div>
+                    <!-- 显示各层的参数量占比 -->
+                    <div id="layer_param_percent_div" style="width: 560px;height: 400px;margin-left: -100px;"></div>
                   </div>
                 </div>
               </div>
               <!--全屏切换-->
-              <div id="full_screen_toggle" style="float: right;right: 5px;top: 5px;">
+              <div id="full_screen_toggle" style="float: right;right: 3px;top: 5px;">
                 <!-- <img src="./resources/full_screen.png" style="width: 30px;height: 30px;margin-right: 20px;"> -->
-                <div style="width: 30px;height: 30px;margin-right: 20px;"><i class="material-icons">pages</i></div>
+                <div style="width: 30px;height: 30px;"><i class="material-icons">pages</i></div>
               </div>
             </div>
           </div>
@@ -593,6 +597,9 @@ body {
               // 加载模型详细信息
               document.getElementById("model_detail_table").style.display = "block";
               var table = document.getElementById("model_detail_table");
+              var layer_uniq_names = new Array(); // layer 名称列表 layername+index
+              var layer_params_info = new Array(); // <name, value> 各layer的参数量
+
               for(var i=0;i<data.length;++i){
                 var line = document.createElement("tr");
                 var col_name = document.createElement("td");
@@ -601,12 +608,17 @@ body {
                 col_shape.innerText = data[i].shape;
                 var col_params = document.createElement("td");
                 col_params.innerText = data[i].params;
+                
+                layer_uniq_names.push(data[i].name+"_"+(i+1));
+                layer_params_info.push({"name": data[i].name+"_"+(i+1), "value": parseInt(data[i].params, 10)});
 
                 line.appendChild(col_name);
                 line.appendChild(col_shape);
                 line.appendChild(col_params);
                 table.appendChild(line);
               }
+              // 绘制各层参数比重饼图
+              display_layer_patams_pie_chart(layer_uniq_names, layer_params_info);
             });
             // 神经网络各层的可视化
             fs.readFile(path.join(__dirname, "inner_scripts", "layer_vis_info.json"), "utf-8", (evt, data)=>{
@@ -652,7 +664,8 @@ body {
                   layer_vis_div.appendChild(layer_img_tag);
                   img_div.append(layer_img_tag);
                 }
-                document.getElementById("model_layers_vis").appendChild(img_div);
+                // document.getElementById("model_layers_vis").appendChild(img_div);
+                document.getElementById("model_layers_vis").insertBefore(img_div, document.getElementById("layer_param_percent_div"));
               }
             });
           }
@@ -688,6 +701,56 @@ body {
     document.getElementById("main_window_close").addEventListener("click",()=>{
       ipcRenderer.send("main-window-close");
     });
+
+    function display_layer_patams_pie_chart(layer_names, layer_param_counts){
+      var pie_chart_layer_params = echarts.init(document.getElementById("layer_param_percent_div"));
+      var option = {
+              title: {
+                  text: '模型参数分布',
+                  left: 'center',
+                  textStyle:{
+                    color:"#FDFEFE"
+                  }
+              },
+              tooltip: {
+                  trigger: 'item',
+                  formatter: '{a} <br/>{b} : {c} ({d}%)'
+              },
+              // legend: {
+              //     orient: 'vertical',
+              //     left: 'left',
+              //     data: layer_names,
+              //     textStyle:{
+              //       color:"#FDFEFE"
+              //     }
+              //     // data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+              // },
+              series: [
+                  {
+                      name: '类别占比',
+                      type: 'pie',
+                      radius: '55%',
+                      center: ['50%', '60%'],
+                      data: layer_param_counts,
+                      // data: [
+                      //     {value: 335, name: '直接访问'},
+                      //     {value: 310, name: '邮件营销'},
+                      //     {value: 234, name: '联盟广告'},
+                      //     {value: 135, name: '视频广告'},
+                      //     {value: 1548, name: '搜索引擎'}
+                      // ],
+                      emphasis: {
+                          itemStyle: {
+                              shadowBlur: 10,
+                              shadowOffsetX: 0,
+                              shadowColor: 'rgba(0, 0, 0, 0.5)'
+                          }
+                      }
+                  }
+              ]
+          };
+          pie_chart_layer_params.setOption(option);
+    }
 
     function display_data_pie_chart(cls_names, cls_items){
       var pie_chart_data = echarts.init(document.getElementById("pie_chart_container"));
