@@ -184,6 +184,9 @@
                         <td id="model_total_units"></td>
                       </tr>
                     </table>
+                    <div id="ann_model_vis_img_parent_div">
+                      <img id="ann_model_vis_img" style="width: 300px;height: 300px;display: none;">
+                    </div>
                   </div>
                   <div class="col m3">
                       <!--模型详细信息表格-->
@@ -472,8 +475,15 @@ body {
           document.getElementById("main_panel").style.left = "";
           document.getElementById("main_panel").style.background = "";
           document.getElementById("main_panel").setAttribute("class","tab-content");
+          if(document.getElementById("ann_model_vis_img").display != "none"){
+            model_vis_img_tag = document.getElementById("ann_model_vis_img");
+            document.getElementById("ann_model_vis_img_parent_div").removeChild(model_vis_img_tag);
+            model_vis_img_tag.style.width = "260px";
+            model_vis_img_tag.style.height = "120px";
+            document.getElementById("ann_model_vis_img_parent_div").appendChild(model_vis_img_tag);
+          }
         }else{
-          // 全屏状态
+          // 切换到全屏状态
           document.getElementById("main_panel").style.zIndex = "100";
           document.getElementById("main_panel").style.width = "100%";
           document.getElementById("main_panel").style.height = "100%";
@@ -482,6 +492,13 @@ body {
           document.getElementById("main_panel").style.left = "0px"; 
           document.getElementById("main_panel").style.background = "#424242";
           document.getElementById("main_panel").setAttribute("class","");
+          if(document.getElementById("ann_model_vis_img").style.display != "none"){
+            model_vis_img_tag = document.getElementById("ann_model_vis_img");
+            document.getElementById("ann_model_vis_img_parent_div").removeChild(model_vis_img_tag);
+            model_vis_img_tag.style.width = "460px";
+            model_vis_img_tag.style.height = "220px";
+            document.getElementById("ann_model_vis_img_parent_div").appendChild(model_vis_img_tag);
+          }
         }
       });
 
@@ -667,6 +684,15 @@ body {
                 // document.getElementById("model_layers_vis").appendChild(img_div);
                 document.getElementById("model_layers_vis").insertBefore(img_div, document.getElementById("layer_param_percent_div"));
               }
+            });
+            // 加载ANN模型可视化
+            fs.readFile(path.join(__dirname, "inner_scripts", "model_vis_info.json"), "utf-8", (evt, data)=>{
+              console.log("ann model vis info: "+data);
+              data = JSON.parse(data);
+              document.getElementById("ann_model_vis_img").src = data.model_vis_img_path;
+              document.getElementById("ann_model_vis_img").style.width = "260px;"
+              document.getElementById("ann_model_vis_img").style.height = "120px";
+              document.getElementById("ann_model_vis_img").style.display = "block";
             });
           }
           document.getElementById("loader_tip").style.display = "none"; // 关闭加载提示

@@ -79,3 +79,16 @@ for layer in model.layers:
 with open("layer_vis_info.json","w+") as f:
     f.write(json.dumps(layer_vis_data))
 
+# draw model graph
+import draw_convnet
+draw_convnet.run_draw(conv_size_list=[(32, 32), (18, 18), (10, 10), (6, 6), (4, 4)],
+                    conv_num_list=[3, 32, 32, 48, 48],
+                    kernel_size_list=[(5, 5), (2, 2), (5, 5), (2, 2)],
+                    dense_size_list=[768, 500, 2],
+                    save_fig_path=os.path.join(base_path, "ann_model_vis.png"))
+
+model_vis_img_info = {"model_vis_img_path":os.path.join(base_path, "ann_model_vis.png")}
+with open("model_vis_info.json","w+") as f:
+    f.write(json.dumps(model_vis_img_info))
+
+
