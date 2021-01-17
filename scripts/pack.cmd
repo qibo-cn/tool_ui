@@ -1,1 +1,1 @@
-electron-packager . Darwin --win --out .\out --arch=x64 --app-version=0.0.1 --icon=".\resources\favicon" --asar
+electron-packager . Darwin --win --out .\out --arch=x64 --app-version=0.0.1 --icon=".\resources\favicon"
