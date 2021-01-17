@@ -202,7 +202,7 @@ def run_draw(conv_size_list, conv_num_list, kernel_size_list, dense_size_list,sa
 
     ############################
     # fully connected layers
-    size_list = [(fc_unit_size, fc_unit_size)] * 3
+    size_list = [(fc_unit_size, fc_unit_size)] * len(dense_size_list)
     # num_list = [768, 500, 2]
     num_list = dense_size_list
     num_show_list = list(map(min, num_list, [NumFcMax] * len(num_list)))

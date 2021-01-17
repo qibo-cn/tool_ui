@@ -79,12 +79,45 @@ for layer in model.layers:
 with open("layer_vis_info.json","w+") as f:
     f.write(json.dumps(layer_vis_data))
 
+
+# extract info for model vis
+conv_sizes=[]
+conv_channels=[]
+kernel_sizes=[]
+dense_sizes=[]
+model.summary()
+
+for layer in model.layers:
+    if layer.__class__.__name__ == "InputLayer":
+        conv_sizes.append(layer.output_shape[0][1:-1])
+        conv_channels.append(layer.output_shape[0][-1])
+    elif layer.__class__.__name__ == "Conv2D":
+        conv_sizes.append(layer.output_shape[1:-1])
+        conv_channels.append(layer.output_shape[-1])
+        kernel_sizes.append(layer.kernel_size)
+
+        print("layer name={}, output shape={}, channel size={}, kernel_size={}".format(layer.__class__.__name__,\
+                layer.output_shape[1:-1],layer.output_shape[-1],layer.kernel_size))
+    elif layer.__class__.__name__ == "AveragePooling2D":
+        conv_sizes.append(layer.output_shape[1:-1])
+        conv_channels.append(layer.output_shape[-1])
+        kernel_sizes.append(layer.pool_size)
+
+        print("layer name={}, output shape={}, channel size={}, pool_size={}".format(layer.__class__.__name__,\
+                layer.output_shape[1:-1],layer.output_shape[-1],layer.pool_size))
+    elif layer.__class__.__name__ == "Flatten":
+        dense_sizes.append(layer.output_shape[-1])
+    elif layer.__class__.__name__ == "Dense":
+        dense_sizes.append(layer.output_shape[-1])
+
+        print("layer size={}".format(layer.output_shape[-1]))
 # draw model graph
+print("convsize list={}, conv num list={}, kernel size list={}, dense size list={}".format(conv_sizes, conv_channels, kernel_sizes, dense_sizes))
 import draw_convnet
-draw_convnet.run_draw(conv_size_list=[(32, 32), (18, 18), (10, 10), (6, 6), (4, 4)],
-                    conv_num_list=[3, 32, 32, 48, 48],
-                    kernel_size_list=[(5, 5), (2, 2), (5, 5), (2, 2)],
-                    dense_size_list=[768, 500, 2],
+draw_convnet.run_draw(conv_size_list=conv_sizes,
+                    conv_num_list=conv_channels,
+                    kernel_size_list=kernel_sizes,
+                    dense_size_list=dense_sizes,
                     save_fig_path=os.path.join(base_path, "ann_model_vis.png"))
 
 model_vis_img_info = {"model_vis_img_path":os.path.join(base_path, "ann_model_vis.png")}
