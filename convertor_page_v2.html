@@ -533,11 +533,19 @@ body {
               data_classes = data.cls_counts;
               var cls_names=[];
               var cls_items=[];
+              var total_count=0;
+              var class_counts=[];
               for(var i=0;i<data_classes.length;++i){
                 cls_names.push(""+i);
                 cls_items.push({"name":""+i, "value":data_classes[i]});
+                class_counts.push(parseInt(data_classes[i], 10));
+                total_count += parseInt(data_classes[i], 10);
               }
-              display_data_pie_chart(cls_names, cls_items);
+              // display_data_pie_chart(cls_names, cls_items);
+              for(var i=0;i<class_counts.length;++i){
+                class_counts[i] /= total_count;
+              }
+              display_data_bar_chart(cls_names, class_counts); // TODO
               document.getElementById("sample_img").style.display="block";
               var hist_bin_names = data.hist_bin_names;
               var hist_bin_vals = data.hist_grams;
@@ -616,6 +624,8 @@ body {
               var table = document.getElementById("model_detail_table");
               var layer_uniq_names = new Array(); // layer 名称列表 layername+index
               var layer_params_info = new Array(); // <name, value> 各layer的参数量
+              var layer_params_list = new Array();
+              var total_params=0;
 
               for(var i=0;i<data.length;++i){
                 var line = document.createElement("tr");
@@ -628,6 +638,8 @@ body {
                 
                 layer_uniq_names.push(data[i].name+"_"+(i+1));
                 layer_params_info.push({"name": data[i].name+"_"+(i+1), "value": parseInt(data[i].params, 10)});
+                layer_params_list.push(parseInt(data[i].params, 10));
+                total_params += parseInt(data[i].params, 10);
 
                 line.appendChild(col_name);
                 line.appendChild(col_shape);
@@ -635,7 +647,13 @@ body {
                 table.appendChild(line);
               }
               // 绘制各层参数比重饼图
-              display_layer_patams_pie_chart(layer_uniq_names, layer_params_info);
+              // display_layer_patams_pie_chart(layer_uniq_names, layer_params_info);
+              console.log("参数名称："+layer_uniq_names);
+              console.log("参数量:" + layer_params_list);
+              for(var i=0;i<layer_params_list.length;++i){
+                layer_params_list[i] /= total_params;
+              }
+              display_layer_params_bar_chart(layer_uniq_names, layer_params_list);
             });
             // 神经网络各层的可视化
             fs.readFile(path.join(__dirname, "inner_scripts", "layer_vis_info.json"), "utf-8", (evt, data)=>{
@@ -728,6 +746,88 @@ body {
       ipcRenderer.send("main-window-close");
     });
 
+    function display_layer_params_bar_chart(layer_names, layer_param_counts){
+      var option = {
+            title: {  
+                  text: '模型参数分布',
+                  left: 'center',
+                  textStyle:{
+                    color:"#FDFEFE"
+                  }
+          },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            backgroundColor:"#17202A",
+            xAxis: [
+                {
+                    type: 'category',
+                    data:layer_names,
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    axisLabel:{
+                        textStyle:{
+                            "color":"#FDFEFE "
+                        },
+                        rotate:30
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '',
+                    min: 0,
+                    max: Math.max(layer_param_counts)*1.2,
+                    interval: Math.max(layer_param_counts)*1.2 / 5,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine:{show:false},
+                    axisLine: {show: false}, 
+                    axisTick: {show: false},
+                    axisLabel:{show:false}
+                },
+                {
+                    type: 'value',
+                    name: '',
+                    min: 0,
+                    max: Math.max(layer_param_counts)*1.2,
+                    interval: Math.max(layer_param_counts)*1.2 / 5,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine:{show:false},
+                    axisLine: {show: false}, 
+                    axisTick: {show: false},
+                    axisLabel:{show:false}
+                }
+            ],
+            series: [
+                {
+                    name: '参数量',
+                    type: 'bar',
+                    data: layer_param_counts
+                },
+                {
+                    name: '参数量',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    data: layer_param_counts
+                }
+            ]
+        };
+        var bar_chart_layer_params = echarts.init(document.getElementById("layer_param_percent_div"));
+        bar_chart_layer_params.setOption(option);
+    }
+
     function display_layer_patams_pie_chart(layer_names, layer_param_counts){
       var pie_chart_layer_params = echarts.init(document.getElementById("layer_param_percent_div"));
       var option = {
@@ -776,6 +876,90 @@ body {
               ]
           };
           pie_chart_layer_params.setOption(option);
+    }
+
+
+
+    function display_data_bar_chart(label_names, label_counts){
+      var option = {
+            title: {  
+                  text: '数据集各类别分布',
+                  left: 'center',
+                  textStyle:{
+                    color:"#FDFEFE"
+                  }
+          },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            backgroundColor:"#17202A",
+            xAxis: [
+                {
+                    type: 'category',
+                    data:label_names,
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    axisLabel:{
+                        textStyle:{
+                            "color":"#FDFEFE "
+                        },
+                        rotate:30
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '',
+                    min: 0,
+                    max: Math.max(label_counts)*1.2,
+                    interval: Math.max(label_counts)*1.2 / 5,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine:{show:false},
+                    axisLine: {show: false}, 
+                    axisTick: {show: false},
+                    axisLabel:{show:false}
+                },
+                {
+                    type: 'value',
+                    name: '',
+                    min: 0,
+                    max: Math.max(label_counts)*1.2,
+                    interval: Math.max(label_counts)*1.2 / 5,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine:{show:false},
+                    axisLine: {show: false}, 
+                    axisTick: {show: false},
+                    axisLabel:{show:false}
+                }
+            ],
+            series: [
+                {
+                    name: '数据占比',
+                    type: 'bar',
+                    data: label_counts
+                },
+                {
+                    name: '数据占比',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    data: label_counts
+                }
+            ]
+        };
+        var bar_chart_data = echarts.init(document.getElementById("pie_chart_container"));
+        bar_chart_data.setOption(option);
     }
 
     function display_data_pie_chart(cls_names, cls_items){
