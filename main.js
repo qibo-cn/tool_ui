@@ -2,6 +2,7 @@
 const {app, ipcMain, BrowserWindow,nativeTheme, dialog} = require('electron')
 const path = require('path')
 const diaolg = require('electron').remote;
+const {exec} = require('child_process');
 
 function createWindow () {
   // Create the browser window.
@@ -19,7 +20,7 @@ function createWindow () {
     }
   })
 
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // mainWindow.setMenuBarVisibility(false);
 
@@ -55,8 +56,22 @@ function createWindow () {
 
   ipcMain.on("jump_to_convertor_page",(evt,args)=>{
     console.log("Jumped to main page.");
-    mainWindow.loadFile("convertor_page_v2.html");
-    mainWindow.setSize(1410,690);
+    // mainWindow.loadFile("convertor_page_v2.html");
+    // mainWindow.setSize(1410,690);
+    
+    // open vscode for extensions
+    mainWindow.minimize();
+    let command_str = "E:\\courses\\ZJLab\\DarwinIDEVSCode\\scripts\\code.bat"
+    let scriptProcess = exec(command_str, {});
+    scriptProcess.stdout.on("data", function(data){
+
+    });
+    scriptProcess.stderr.on("data", function(data){
+
+    });
+    scriptProcess.on("exit", function(){
+      mainWindow.restore();
+    });
   });
 
   ipcMain.on("new project",(evt,args)=>{
