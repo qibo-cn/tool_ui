@@ -18,7 +18,7 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "bootstrap": "^4.5.3",
-    "electron": "^11.1.0",
+    "electron": "^11.2.2",
     "element-ui": "^2.14.1",
     "jquery": "^3.5.1",
     "monaco-editor": "^0.21.2",
