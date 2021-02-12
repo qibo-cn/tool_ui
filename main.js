@@ -3,6 +3,18 @@ const {app, ipcMain, BrowserWindow,nativeTheme, dialog} = require('electron')
 const path = require('path')
 const diaolg = require('electron').remote;
 const {exec} = require('child_process');
+const axios = require('axios').default;
+
+
+function sleep(numberMillis) {
+  var start = new Date().getTime();
+  while (true) {
+    if (new Date().getTime() - start > numberMillis) {
+      break;
+    }
+  }
+}
+
 
 function createWindow () {
   // Create the browser window.
@@ -64,14 +76,24 @@ function createWindow () {
     let command_str = "E:\\courses\\ZJLab\\DarwinIDEVSCode\\scripts\\code.bat"
     let scriptProcess = exec(command_str, {});
     scriptProcess.stdout.on("data", function(data){
-
     });
     scriptProcess.stderr.on("data", function(data){
+    });
+    scriptProcess.on("close", function(code,signal){
+    });
 
-    });
-    scriptProcess.on("exit", function(){
-      mainWindow.restore();
-    });
+    sleep(20000);
+    // 定时ping 检测
+    let convertor_interval_handler = setInterval(()=>{
+      axios.get("http://localhost:6003/ping").then((resp)=>{
+      }).catch(err=>{
+        console.log("connection error!");
+        // 程序已退出
+        mainWindow.restore();
+        clearInterval(convertor_interval_handler);
+      });
+    }, 300);
+    
   });
 
   ipcMain.on("new project",(evt,args)=>{
