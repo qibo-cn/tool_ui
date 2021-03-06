@@ -19,8 +19,8 @@ function sleep(numberMillis) {
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 730,
-    height: 800,
+    width: 780,
+    height: 700,
     backgroundColor: "#212121",
     darkTheme: true,
     frame:false,
@@ -38,7 +38,7 @@ function createWindow () {
 
   // and load the index.html of the app.
   mainWindow.loadFile('main_page_v2.html');
-  nativeTheme.themeSource="dark"; // page style dark mode
+  nativeTheme.themeSource="light"; // page style dark mode
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -82,7 +82,7 @@ function createWindow () {
     scriptProcess.on("close", function(code,signal){
     });
 
-    sleep(20000);
+    sleep(60000);
     // 定时ping 检测
     let convertor_interval_handler = setInterval(()=>{
       axios.get("http://localhost:6003/ping").then((resp)=>{
