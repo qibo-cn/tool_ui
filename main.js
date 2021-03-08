@@ -66,6 +66,23 @@ function createWindow () {
     mainWindow.close();
   });
 
+  ipcMain.on("jump_to_training_page", (evt, args) => {
+    console.log("jump to training page");
+    mainWindow.minimize();
+    let command_str = path.normalize(__dirname, "tools/training/DarwinIDE/scripts/code.bat");
+    let scriptProcess = exec(command_str, {});
+    scriptProcess.stdout.on("data", function (data) {
+
+    });
+    scriptProcess.stderr.on("data", function (data) {
+
+    });
+    scriptProcess.on("exit", function () {
+      mainWindow.restore();
+    });
+  });
+
+
   ipcMain.on("jump_to_convertor_page",(evt,args)=>{
     console.log("Jumped to main page.");
     // mainWindow.loadFile("convertor_page_v2.html");
@@ -73,7 +90,8 @@ function createWindow () {
     
     // open vscode for extensions
     mainWindow.minimize();
-    let command_str = "E:\\courses\\ZJLab\\DarwinIDEVSCode\\scripts\\code.bat"
+    let command_str = path.normalize(__dirname, "tools/training/DarwinIDE/scripts/code.bat");
+  
     let scriptProcess = exec(command_str, {});
     scriptProcess.stdout.on("data", function(data){
     });

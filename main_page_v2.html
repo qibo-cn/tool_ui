@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <div style="
+    <div id="training_entrance" style="
     background-image: linear-gradient(180deg, #AFD1FF 0%, #77A4FF 100%);
     border-radius: 46px;
     border-radius: 46px;height: 200px;width: 260px;padding-top: 1px;margin-left: 140px;display: inline-block;">
@@ -273,6 +273,12 @@ border-radius: 21px;height: 200px;width: 260px;padding-top: 1px;margin-left: 60p
             console.log("jump_to_convertor_page");
             ipcRenderer.send("jump_to_convertor_page");
         }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById("training_entrance").onclick = function() {
+        console.log("jump to training page");
+        ipcRenderer.send("jump_to_training_page");
+      }
     });
     document.getElementById("main_window_minimize").addEventListener("click",()=>{
       ipcRenderer.send("main-window-minimize");

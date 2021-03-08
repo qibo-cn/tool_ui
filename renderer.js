@@ -11,3 +11,7 @@ const {ipcRenderer} = require('electron');
 document.getElementById("convertor_btn").addEventListener("click",evt=>{
     ipcRenderer.send("jump_to_convertor_page");
 });
+document.getElementById("training_btn").addEventListener("click",evt=>{
+    ipcRenderer.send("jump_to_training_page");
+
+});
